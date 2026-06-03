@@ -407,6 +407,28 @@
     to{opacity:1;transform:none}
   }
 
+  /* alternate layout: "wall" (problem grid) - same style, different composition */
+  .slide.wall .hero-media{display:none}
+  .slide.wall .content{width:auto;right:var(--pad-x)}
+  .wallmain{align-self:center}
+  .wallhead{margin:0 0 6px;font-family:Inter,system-ui,sans-serif;font-weight:800;text-transform:uppercase;
+    line-height:.96;letter-spacing:.01em;font-size:clamp(34px,min(5.4vw,8vh),68px);max-width:20ch}
+  .bricks{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:24px 0 16px}
+  .brick{border:1px solid rgba(116,199,232,.22);background:rgba(116,199,232,.045);
+    padding:15px 16px 17px;display:flex;flex-direction:column;gap:7px;min-height:104px}
+  .brick .bk{font:600 11px/1 JetBrains Mono,monospace;letter-spacing:.18em;text-transform:uppercase;color:#b8d8e6}
+  .brick .bv{font-family:Inter,system-ui,sans-serif;font-weight:800;font-size:clamp(17px,1.5vw,24px);color:#f3f7f8;line-height:1.05}
+  .brick .bd{font-size:12px;line-height:1.42;color:#9aa0a6;font-weight:300}
+  .wallclose{margin:0;font-family:Inter,system-ui,sans-serif;font-weight:300;font-size:clamp(15px,1.3vw,20px);color:#d4dcde;max-width:66ch}
+  .slide.active .brick{animation:reveal .7s both cubic-bezier(.22,.61,.36,1)}
+  .slide.active .brick:nth-child(1){animation-delay:.16s}
+  .slide.active .brick:nth-child(2){animation-delay:.22s}
+  .slide.active .brick:nth-child(3){animation-delay:.28s}
+  .slide.active .brick:nth-child(4){animation-delay:.34s}
+  .slide.active .brick:nth-child(5){animation-delay:.40s}
+  .slide.active .brick:nth-child(6){animation-delay:.46s}
+  .slide.active .brick:nth-child(7){animation-delay:.52s}
+
   @media (max-width:900px){
     .deck{overflow:auto}
     body{overflow:auto}
@@ -586,8 +608,26 @@ const slides = [
     ]
   },
   {
+    layout:"wall",
     tone:"red",
-    eyebrow:"11 / AI Has a Body",
+    eyebrow:"Deployment Reality",
+    title:["The Rack Is the","Easy Part"],
+    accent:1,
+    tagline:"Everyone buys the box. Deployments die at the wall.",
+    wall:[
+      {k:"POWER", v:"280-420 MW", d:"past a constrained grid + PG&E demand charge"},
+      {k:"COOLING", v:">50 kW / rack", d:"air physically cannot remove it - liquid only"},
+      {k:"WATER", v:"350-550M gal / yr", d:"cooling at city scale"},
+      {k:"CARBON", v:"250-400k t CO2e / yr", d:"ESG + CEQA scrutiny"},
+      {k:"SAFETY", v:"NFPA 855", d:"thermal runaway + BESS spacing"},
+      {k:"PERMITTING", v:"CEQA / SJCE", d:"20-28 month review"},
+      {k:"INTEGRATION", v:"one closed loop", d:"BIM / BAS / microgrid / Agentic"}
+    ],
+    close:"Deployments don't die at the purchase order. They die at the wall."
+  },
+  {
+    tone:"red",
+    eyebrow:"12 / AI Has a Body",
     title:["AI Has","a Body"],
     accent:1,
     tagline:"AI infrastructure has physical consequences",
@@ -601,7 +641,7 @@ const slides = [
   },
   {
     tone:"blue",
-    eyebrow:"12 / Integration Is the Bottleneck",
+    eyebrow:"13 / Integration Is the Bottleneck",
     title:["Integration","Bottleneck"],
     accent:0,
     tagline:"Integration maturity determines deployability",
@@ -644,11 +684,26 @@ function titleHtml(slide){
 
 function render(){
   deck.innerHTML = slides.map((slide, idx) => `
-    <section class="slide ${idx === 0 ? "active" : ""} ${slide.photo ? "vivid" : ""}" data-tone="${esc(slide.tone)}">
+    <section class="slide ${idx === 0 ? "active" : ""} ${slide.photo ? "vivid" : ""}${slide.layout === "wall" ? " wall" : ""}" data-tone="${esc(slide.tone)}">
       <div class="hero-media"><div class="image" style="background-image:url('${esc(slide.photo || slide.image)}')"></div></div>
       <div class="chapter"><span>${esc(slide.eyebrow.split("/")[0].trim())}</span><span class="number">${String(idx + 1).padStart(2,"0")}</span></div>
       <div class="content">
         <div class="topline reveal"><span class="mark"><i></i><i></i><i></i></span><span>${esc(slide.tagline)}</span></div>
+        ${slide.layout === "wall" ? `
+        <div class="main wallmain">
+          <h1 class="wallhead reveal">${titleHtml(slide)}</h1>
+          <div class="bricks">
+            ${slide.wall.map(w => `
+              <div class="brick">
+                <div class="bk">${esc(w.k)}</div>
+                <div class="bv">${esc(w.v)}</div>
+                <div class="bd">${esc(w.d)}</div>
+              </div>
+            `).join("")}
+          </div>
+          <p class="wallclose reveal">${esc(slide.close)}</p>
+        </div>
+        ` : `
         <div class="main">
           <p class="kicker reveal">${esc(slide.eyebrow)}</p>
           <h1 class="reveal">${titleHtml(slide)}</h1>
@@ -662,6 +717,7 @@ function render(){
             `).join("")}
           </div>
         </div>
+        `}
         <div class="footer">
           <div><div class="rule"></div><span>Supermicro / SJEC Expo / Cyber Silicon Valley</span></div>
           <span><strong>${String(idx + 1).padStart(2,"0")}</strong> / ${String(slides.length).padStart(2,"0")}</span>
