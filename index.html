@@ -388,6 +388,11 @@
   .corners span:nth-child(3){bottom:-1px;left:-1px;border-right:0;border-top:0}
   .corners span:nth-child(4){bottom:-1px;right:-1px;border-left:0;border-top:0}
 
+  /* faint diagonal ownership watermark — subtle on screen, visible on copies/screenshots, tiles full-frame so it can't be cropped out */
+  .watermark{position:fixed;top:-30%;left:-30%;width:160%;height:160%;z-index:7;pointer-events:none;
+    opacity:.07;transform:rotate(-30deg);background-repeat:repeat;
+    background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="360" height="188"><text x="8" y="100" font-family="monospace" font-size="14" letter-spacing="5" fill="%23ffffff">SUPERMICRO / TUO / SJEC EXPO 2026</text></svg>');}
+
   .slide.active .reveal{animation:reveal .78s both cubic-bezier(.22,.61,.36,1)}
   .slide.active .reveal:nth-child(1){animation-delay:.04s}
   .slide.active .reveal:nth-child(2){animation-delay:.12s}
@@ -426,6 +431,7 @@
   <main class="deck" id="deck" aria-live="polite"></main>
   <div class="sweep" id="sweep"><i></i></div>
   <div class="corners"><span></span><span></span><span></span><span></span></div>
+  <div class="watermark"></div>
   <nav class="side-rail" id="rail" aria-label="Slide navigation"></nav>
   <div class="progress"><i id="progress"></i></div>
   <div class="controls" aria-label="Playback controls">
