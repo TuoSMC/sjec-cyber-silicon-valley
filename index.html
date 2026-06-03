@@ -408,8 +408,8 @@
   }
 
   /* alternate layout: "wall" (problem grid) - same style, different composition */
-  .slide.wall .hero-media{display:none}
-  .slide.wall .content{width:auto;right:var(--pad-x)}
+  .slide.wall .hero-media,.slide.stat .hero-media,.slide.loop .hero-media,.slide.agents .hero-media{display:none}
+  .slide.wall .content,.slide.stat .content,.slide.loop .content,.slide.agents .content{width:auto;right:var(--pad-x)}
   .wallmain{align-self:center}
   .wallhead{margin:0 0 6px;font-family:Inter,system-ui,sans-serif;font-weight:800;text-transform:uppercase;
     line-height:.96;letter-spacing:.01em;font-size:clamp(34px,min(5.4vw,8vh),68px);max-width:20ch}
@@ -428,6 +428,26 @@
   .slide.active .brick:nth-child(5){animation-delay:.40s}
   .slide.active .brick:nth-child(6){animation-delay:.46s}
   .slide.active .brick:nth-child(7){animation-delay:.52s}
+
+  /* stat layout */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin:30px 0 16px}
+  .stat{border-left:2px solid rgba(116,199,232,.5);padding:2px 0 2px 18px}
+  .stat .sv{font-family:Inter,system-ui,sans-serif;font-weight:800;font-size:clamp(34px,4.2vw,62px);line-height:1;color:#f3f7f8}
+  .stat .sk{margin-top:10px;font:600 11px/1.3 JetBrains Mono,monospace;letter-spacing:.16em;text-transform:uppercase;color:#b8d8e6}
+  .wallsub{margin:8px 0 0;font:500 13px/1.5 JetBrains Mono,monospace;letter-spacing:.03em;color:#9aa0a6}
+
+  /* loop layout */
+  .loop{display:flex;align-items:stretch;gap:8px;margin:26px 0 16px;flex-wrap:wrap}
+  .loop .step{flex:1 1 0;min-width:165px;border:1px solid rgba(116,199,232,.22);background:rgba(116,199,232,.045);padding:14px 15px 16px;display:flex;flex-direction:column;gap:7px}
+  .loop .sn{font:700 12px/1 JetBrains Mono,monospace;color:#b8d8e6;letter-spacing:.1em}
+  .loop .sk{font-family:Inter,system-ui,sans-serif;font-weight:800;font-size:clamp(15px,1.3vw,21px);text-transform:uppercase;color:#f3f7f8;line-height:1.05}
+  .loop .step .bd{font-size:12px;line-height:1.42;color:#9aa0a6;font-weight:300}
+  .loop .arrow{display:flex;align-items:center;color:#b8d8e6;font-size:18px;opacity:.6}
+
+  /* agents layout */
+  .super{margin:24px 0 12px;border:1px solid rgba(116,199,232,.3);background:rgba(116,199,232,.06);padding:13px 16px;font:600 13px/1.4 JetBrains Mono,monospace;letter-spacing:.05em;text-transform:uppercase;color:#d6eaf2}
+  .agentrow{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+  .agentrow .brick{min-height:78px}
 
   @media (max-width:900px){
     .deck{overflow:auto}
@@ -537,7 +557,15 @@ const slides = [
   },
   {
     tone:"gold",
+    layout:"loop",
     eyebrow:"06 / Agentic Brain",
+    loop:[
+      {n:"01", k:"REASON", d:"read PG&E, CAISO, BESS SOC, BIM, BAS"},
+      {n:"02", k:"ACT", d:"call BESS, EV-charger, signals via BACnet"},
+      {n:"03", k:"OBSERVE", d:"measure power, carbon, latency"},
+      {n:"04", k:"MEMORY", d:"write trajectory - auditable, reusable"}
+    ],
+    callout:"The cost of a decision = how hard it thinks x how often it acts. A city thinks constantly.",
     title:["Agentic","Brain"],
     accent:1,
     tagline:"Thought -> tool use -> controlled execution",
@@ -551,7 +579,17 @@ const slides = [
   },
   {
     tone:"red",
+    layout:"agents",
     eyebrow:"07 / Multi-Agent Collaboration",
+    supervisor:"SUPERVISOR + COORDINATOR - sets the global objective, arbitrates conflict, syncs tasks",
+    agents:[
+      {k:"POWER", d:"BESS + data-center dispatch"},
+      {k:"MOBILITY", d:"EV charging + signals"},
+      {k:"TRAFFIC", d:"intersection flow"},
+      {k:"SAFETY", d:"emergency + patrol"},
+      {k:"ENERGY", d:"microgrid + market"}
+    ],
+    floor:"Shared vector memory. A 24/7 compute floor that never idles - and grows faster than linear as you add domains.",
     title:["Multi-Agent","Collaboration"],
     accent:0,
     tagline:"One city, many agents, one operating model",
@@ -594,7 +632,15 @@ const slides = [
   },
   {
     tone:"gold",
+    layout:"stat",
     eyebrow:"10 / Technical Architecture and Scale",
+    stats:[
+      {v:"2,800-3,500", k:"DCBBS RACKS - SAN JOSE"},
+      {v:"280-420 MW", k:"RELIABLE POWER"},
+      {v:"~120 kW", k:"PER RACK (GB200 NVL72)"}
+    ],
+    weld:"Every megawatt is a rack. ~3,000 racks x 120 kW = 360 MW.",
+    scale2:"Bay Area scale: 42,000-70,000 racks -> 4.2-8.4 GW.",
     title:["Architecture","and Scale"],
     accent:1,
     tagline:"Scale transforms AI into infrastructure planning",
@@ -682,42 +728,30 @@ function titleHtml(slide){
   return slide.title.map((line, idx) => `<span class="${idx === slide.accent ? "accent" : ""}">${esc(line)}</span>`).join("<br>");
 }
 
+function mainBlock(slide){
+  if(slide.layout === "wall"){
+    return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="bricks">${slide.wall.map(w=>`<div class="brick"><div class="bk">${esc(w.k)}</div><div class="bv">${esc(w.v)}</div><div class="bd">${esc(w.d)}</div></div>`).join("")}</div><p class="wallclose reveal">${esc(slide.close)}</p></div>`;
+  }
+  if(slide.layout === "stat"){
+    return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="stats reveal">${slide.stats.map(s=>`<div class="stat"><div class="sv">${esc(s.v)}</div><div class="sk">${esc(s.k)}</div></div>`).join("")}</div><p class="wallclose reveal">${esc(slide.weld)}</p><p class="wallsub reveal">${esc(slide.scale2)}</p></div>`;
+  }
+  if(slide.layout === "loop"){
+    return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="loop reveal">${slide.loop.map((s,i)=>`<div class="step"><div class="sn">${esc(s.n)}</div><div class="sk">${esc(s.k)}</div><div class="bd">${esc(s.d)}</div></div>${i<slide.loop.length-1?`<div class="arrow">&rarr;</div>`:""}`).join("")}</div><p class="wallclose reveal">${esc(slide.callout)}</p></div>`;
+  }
+  if(slide.layout === "agents"){
+    return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="super reveal">${esc(slide.supervisor)}</div><div class="bricks agentrow reveal">${slide.agents.map(a=>`<div class="brick"><div class="bk">${esc(a.k)}</div><div class="bd">${esc(a.d)}</div></div>`).join("")}</div><p class="wallclose reveal">${esc(slide.floor)}</p></div>`;
+  }
+  return `<div class="main"><p class="kicker reveal">${esc(slide.eyebrow)}</p><h1 class="reveal">${titleHtml(slide)}</h1><p class="lede reveal">${esc(slide.lede)}</p><div class="proof">${slide.points.map((point,pointIdx)=>`<div class="spec"><span class="num">${String(pointIdx+1).padStart(2,"0")}</span><p>${esc(point)}</p></div>`).join("")}</div></div>`;
+}
+
 function render(){
   deck.innerHTML = slides.map((slide, idx) => `
-    <section class="slide ${idx === 0 ? "active" : ""} ${slide.photo ? "vivid" : ""}${slide.layout === "wall" ? " wall" : ""}" data-tone="${esc(slide.tone)}">
+    <section class="slide ${idx === 0 ? "active" : ""} ${slide.photo ? "vivid" : ""}${slide.layout ? " " + esc(slide.layout) : ""}" data-tone="${esc(slide.tone)}">
       <div class="hero-media"><div class="image" style="background-image:url('${esc(slide.photo || slide.image)}')"></div></div>
       <div class="chapter"><span>${esc(slide.eyebrow.split("/")[0].trim())}</span><span class="number">${String(idx + 1).padStart(2,"0")}</span></div>
       <div class="content">
         <div class="topline reveal"><span class="mark"><i></i><i></i><i></i></span><span>${esc(slide.tagline)}</span></div>
-        ${slide.layout === "wall" ? `
-        <div class="main wallmain">
-          <h1 class="wallhead reveal">${titleHtml(slide)}</h1>
-          <div class="bricks">
-            ${slide.wall.map(w => `
-              <div class="brick">
-                <div class="bk">${esc(w.k)}</div>
-                <div class="bv">${esc(w.v)}</div>
-                <div class="bd">${esc(w.d)}</div>
-              </div>
-            `).join("")}
-          </div>
-          <p class="wallclose reveal">${esc(slide.close)}</p>
-        </div>
-        ` : `
-        <div class="main">
-          <p class="kicker reveal">${esc(slide.eyebrow)}</p>
-          <h1 class="reveal">${titleHtml(slide)}</h1>
-          <p class="lede reveal">${esc(slide.lede)}</p>
-          <div class="proof">
-            ${slide.points.map((point, pointIdx) => `
-              <div class="spec">
-                <span class="num">${String(pointIdx + 1).padStart(2,"0")}</span>
-                <p>${esc(point)}</p>
-              </div>
-            `).join("")}
-          </div>
-        </div>
-        `}
+        ${mainBlock(slide)}
         <div class="footer">
           <div><div class="rule"></div><span>Supermicro / SJEC Expo / Cyber Silicon Valley</span></div>
           <span><strong>${String(idx + 1).padStart(2,"0")}</strong> / ${String(slides.length).padStart(2,"0")}</span>
