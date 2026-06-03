@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cyber Silicon Valley - Atelier Keynote</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#101418;
+    --carbon:#151a20;
+    --surface:#1c232a;
+    --surface-2:#222a33;
+    --ink:#f3f7f8;
+    --body:#ccd5d7;
+    --muted:#8d9aa0;
+    --hair:#3a454c;
+    --gold:#b99a58;
+    --gold-soft:#d6c18d;
+    --red:#b92c24;
+    --blue:#2b8ac5;
+    --cyan:#74c7e8;
+    --pad-x:clamp(40px,6vw,104px);
+    --pad-y:clamp(34px,5.2vw,82px);
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;background:var(--black);color:var(--ink);overflow:hidden}
+  body{
+    font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  .deck{
+    position:relative;
+    width:100vw;
+    height:100vh;
+    background:
+      radial-gradient(90% 86% at 78% 18%, rgba(116,199,232,.18), transparent 48%),
+      radial-gradient(72% 58% at 4% 92%, rgba(43,138,197,.13), transparent 54%),
+      linear-gradient(90deg, rgba(16,20,24,.95) 0%, rgba(16,20,24,.82) 48%, rgba(16,20,24,.55) 100%),
+      repeating-linear-gradient(90deg, rgba(116,199,232,.05) 0 1px, transparent 1px 136px),
+      var(--black);
+    isolation:isolate;
+  }
+
+  .deck::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.08), transparent 13%, transparent 84%, rgba(255,255,255,.05)),
+      repeating-linear-gradient(0deg, rgba(116,199,232,.035) 0 1px, transparent 1px 52px),
+      repeating-linear-gradient(90deg, rgba(116,199,232,.026) 0 1px, transparent 1px 52px),
+      repeating-linear-gradient(135deg, rgba(255,255,255,.014) 0 1px, transparent 1px 22px);
+    mix-blend-mode:screen;
+    opacity:.36;
+  }
+
+  .deck::after{
+    content:"";
+    position:absolute;
+    inset:18px;
+    border:1px solid rgba(116,199,232,.16);
+    z-index:7;
+    pointer-events:none;
+  }
+
+  .slide{
+    position:absolute;
+    inset:0;
+    opacity:0;
+    pointer-events:none;
+    transform:scale(1.014);
+    filter:blur(7px);
+    transition:opacity .85s cubic-bezier(.16,1,.3,1),transform 1.1s cubic-bezier(.16,1,.3,1),filter .75s ease;
+    will-change:opacity,transform,filter;
+  }
+
+  .slide.active{opacity:1;pointer-events:auto;transform:none;filter:none;transition-delay:.04s}
+
+  .hero-media{
+    position:absolute;
+    inset:0 0 0 auto;
+    width:58vw;
+    overflow:hidden;
+    z-index:0;
+  }
+
+  .hero-media .image{
+    position:absolute;
+    inset:-3%;
+    background-size:cover;
+    background-position:center;
+    filter:grayscale(.55) brightness(.5) contrast(1.14) saturate(.66);
+    opacity:.58;
+    transform:scale(1.05);
+    transition:opacity .9s ease;
+  }
+  .slide.active .hero-media .image{
+    opacity:.66;
+    animation:kenburns 20s ease-out both;
+  }
+  @keyframes kenburns{from{transform:scale(1.05)}to{transform:scale(1.13)}}
+
+  /* vivid real-photo slides (DCBBS / server racks) — full colour, stronger scrim so text stays clean */
+  .slide.vivid .hero-media .image{
+    filter:grayscale(.08) brightness(.82) contrast(1.05) saturate(1.1);
+    opacity:.92;
+  }
+  .slide.vivid .hero-media::before{
+    background:
+      linear-gradient(90deg, #101418 0%, rgba(16,20,24,.93) 28%, rgba(16,20,24,.52) 62%, rgba(16,20,24,.18) 100%),
+      linear-gradient(180deg, rgba(16,20,24,.22), transparent 46%, rgba(16,20,24,.52));
+  }
+
+  .hero-media::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:2;
+    background:
+      linear-gradient(90deg, #101418 0%, rgba(16,20,24,.88) 22%, rgba(16,20,24,.48) 58%, rgba(16,20,24,.2) 100%),
+      linear-gradient(180deg, rgba(16,20,24,.24), transparent 44%, rgba(16,20,24,.58));
+  }
+
+  .hero-media::after{
+    content:"";
+    position:absolute;
+    right:11vw;
+    top:50%;
+    width:min(42vw,620px);
+    aspect-ratio:1;
+    transform:translateY(-50%);
+    border:1px solid rgba(116,199,232,.11);
+    border-radius:50%;
+    background:
+      repeating-conic-gradient(from -12deg, rgba(116,199,232,.12) 0deg 1deg, transparent 1deg 14deg),
+      radial-gradient(circle, transparent 0 56%, rgba(116,199,232,.11) 56% 57%, transparent 57% 100%);
+    opacity:.22;
+    mix-blend-mode:screen;
+  }
+
+  .content{
+    position:absolute;
+    z-index:4;
+    left:var(--pad-x);
+    top:var(--pad-y);
+    bottom:var(--pad-y);
+    width:min(56vw,930px);
+    display:grid;
+    grid-template-rows:auto 1fr auto;
+  }
+
+  .topline{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    color:var(--muted);
+    font:500 11px/1 JetBrains Mono,monospace;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+  }
+
+  .topline .mark{
+    width:74px;
+    height:4px;
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:4px;
+  }
+
+  .topline .mark i:nth-child(1){background:rgba(43,138,197,.92)}
+  .topline .mark i:nth-child(2){background:rgba(116,199,232,.8)}
+  .topline .mark i:nth-child(3){background:rgba(185,154,88,.68)}
+
+  .main{
+    align-self:center;
+    max-width:980px;
+  }
+
+  .kicker{
+    margin:0 0 18px;
+    color:#b8d8e6;
+    font:500 12px/1.2 JetBrains Mono,monospace;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+  }
+
+  h1{
+    margin:0;
+    max-width:14ch;
+    font-family:Inter,system-ui,sans-serif;
+    font-size:clamp(42px,5.9vw,82px);
+    font-weight:800;
+    line-height:.96;
+    letter-spacing:.01em;
+    text-transform:uppercase;
+  }
+
+  h1 .accent{color:#b8d8e6}
+  .slide[data-tone="red"] h1 .accent{color:#e2b0ac}
+  .slide[data-tone="blue"] h1 .accent{color:#a8c8df}
+
+  .lede{
+    max-width:62ch;
+    margin:22px 0 0;
+    color:#d4dcde;
+    font-size:clamp(16px,1.2vw,21px);
+    line-height:1.52;
+    font-weight:300;
+  }
+
+  .proof{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:0 clamp(22px,2.7vw,44px);
+    margin-top:clamp(26px,3vw,42px);
+    max-width:1000px;
+  }
+
+  .spec{
+    border-top:1px solid rgba(116,199,232,.24);
+    padding-top:15px;
+    min-height:96px;
+  }
+
+  .spec .num{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#b8d8e6;
+    font:600 12px/1 JetBrains Mono,monospace;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+
+  .spec .num::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:linear-gradient(90deg, rgba(116,199,232,.32), transparent);
+  }
+
+  .spec p{
+    margin:0;
+    color:#e3e8e8;
+    font-size:clamp(13px,1vw,16px);
+    line-height:1.55;
+    font-weight:300;
+  }
+
+  .footer{
+    display:grid;
+    grid-template-columns:1fr auto;
+    align-items:end;
+    gap:28px;
+    color:var(--muted);
+    font:500 11px/1 JetBrains Mono,monospace;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+  }
+
+  .footer .rule{
+    height:1px;
+    background:linear-gradient(90deg, rgba(116,199,232,.34), rgba(255,255,255,.1), transparent);
+    margin-bottom:5px;
+  }
+
+  .footer strong{color:var(--ink);font-weight:500}
+
+  .chapter{
+    position:absolute;
+    z-index:5;
+    right:var(--pad-x);
+    top:var(--pad-y);
+    display:flex;
+    align-items:flex-start;
+    gap:18px;
+    color:rgba(248,245,238,.84);
+    font:500 11px/1 JetBrains Mono,monospace;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+  }
+
+  .chapter .number{
+    color:rgba(184,216,230,.84);
+    font-family:Inter,system-ui,sans-serif;
+    font-size:clamp(38px,4.8vw,74px);
+    font-weight:700;
+    line-height:.82;
+    letter-spacing:0;
+  }
+
+  .side-rail{
+    position:absolute;
+    z-index:6;
+    right:22px;
+    top:50%;
+    transform:translateY(-50%);
+    display:flex;
+    flex-direction:column;
+    gap:11px;
+  }
+
+  .dot{
+    width:7px;
+    height:7px;
+    border:1px solid rgba(116,199,232,.34);
+    background:transparent;
+    transform:rotate(45deg);
+    cursor:pointer;
+  }
+
+  .dot.on{background:#b8d8e6}
+
+  .progress{
+    position:fixed;
+    left:18px;
+    right:18px;
+    bottom:18px;
+    z-index:8;
+    height:2px;
+    background:rgba(255,255,255,.08);
+  }
+
+  .progress i{
+    display:block;
+    height:100%;
+    width:0;
+    background:linear-gradient(90deg, rgba(43,138,197,.86), rgba(116,199,232,.92));
+    transition:width .72s cubic-bezier(.22,.61,.36,1);
+  }
+
+  .controls{
+    position:fixed;
+    z-index:9;
+    right:var(--pad-x);
+    bottom:calc(var(--pad-y) - 18px);
+    display:flex;
+    gap:10px;
+  }
+
+  .controls button{
+    width:42px;
+    height:42px;
+    border:1px solid rgba(116,199,232,.28);
+    border-radius:0;
+    color:var(--ink);
+    background:rgba(12,12,12,.68);
+    font:600 15px/1 JetBrains Mono,monospace;
+    cursor:pointer;
+    backdrop-filter:blur(14px);
+  }
+
+  .controls button:hover{border-color:var(--cyan);color:var(--cyan)}
+
+  body.exporting .controls,
+  body.exporting .side-rail{
+    display:none;
+  }
+
+  /* ---- techy transition: scan sweep + frame corner ticks ---- */
+  .sweep{position:fixed;inset:0;z-index:8;pointer-events:none;overflow:hidden;opacity:0}
+  .sweep.run{animation:sweepFade .72s ease}
+  .sweep i{position:absolute;top:0;bottom:0;left:-6%;width:2px;
+    background:linear-gradient(180deg,transparent,var(--cyan) 18%,#eaf7ff 50%,var(--cyan) 82%,transparent);
+    box-shadow:0 0 30px 6px rgba(116,199,232,.5)}
+  .sweep i::before{content:"";position:absolute;top:0;bottom:0;right:2px;width:280px;
+    background:linear-gradient(90deg,transparent,rgba(116,199,232,.09))}
+  .sweep.run i{animation:sweepMove .72s cubic-bezier(.55,0,.25,1)}
+  .sweep.run.rev i{animation:sweepMoveRev .72s cubic-bezier(.55,0,.25,1)}
+  .sweep.run.rev i::before{right:auto;left:2px;background:linear-gradient(270deg,transparent,rgba(116,199,232,.09))}
+  @keyframes sweepMove{from{left:-6%}to{left:106%}}
+  @keyframes sweepMoveRev{from{left:106%}to{left:-6%}}
+  @keyframes sweepFade{0%{opacity:0}12%{opacity:1}100%{opacity:0}}
+
+  .corners{position:fixed;inset:18px;z-index:8;pointer-events:none}
+  .corners span{position:absolute;width:13px;height:13px;border:1px solid rgba(116,199,232,.5)}
+  .corners span:nth-child(1){top:-1px;left:-1px;border-right:0;border-bottom:0}
+  .corners span:nth-child(2){top:-1px;right:-1px;border-left:0;border-bottom:0}
+  .corners span:nth-child(3){bottom:-1px;left:-1px;border-right:0;border-top:0}
+  .corners span:nth-child(4){bottom:-1px;right:-1px;border-left:0;border-top:0}
+
+  .slide.active .reveal{animation:reveal .78s both cubic-bezier(.22,.61,.36,1)}
+  .slide.active .reveal:nth-child(1){animation-delay:.04s}
+  .slide.active .reveal:nth-child(2){animation-delay:.12s}
+  .slide.active .reveal:nth-child(3){animation-delay:.20s}
+  .slide.active .spec{animation:reveal .72s both cubic-bezier(.22,.61,.36,1)}
+  .slide.active .spec:nth-child(1){animation-delay:.28s}
+  .slide.active .spec:nth-child(2){animation-delay:.38s}
+  .slide.active .spec:nth-child(3){animation-delay:.48s}
+
+  @keyframes reveal{
+    from{opacity:0;transform:translateY(18px)}
+    to{opacity:1;transform:none}
+  }
+
+  @media (max-width:900px){
+    .deck{overflow:auto}
+    body{overflow:auto}
+    .slide{min-height:100vh}
+    .hero-media{width:100%;opacity:.56}
+    .content{left:28px;right:28px;top:34px;bottom:34px;width:auto}
+    .chapter{display:none}
+    .topline{align-items:flex-start;gap:14px;font-size:10px;letter-spacing:.16em;line-height:1.45}
+    .topline span:last-child{max-width:calc(100vw - 150px)}
+    h1{font-size:clamp(42px,15vw,76px)}
+    .lede{font-size:16px}
+    .proof{grid-template-columns:1fr;gap:16px;margin-top:34px}
+    .spec{min-height:auto}
+    .footer{display:none}
+    .side-rail{display:none}
+    .controls{right:28px;bottom:30px}
+    .deck::after{inset:10px}
+  }
+</style>
+</head>
+<body>
+  <main class="deck" id="deck" aria-live="polite"></main>
+  <div class="sweep" id="sweep"><i></i></div>
+  <div class="corners"><span></span><span></span><span></span><span></span></div>
+  <nav class="side-rail" id="rail" aria-label="Slide navigation"></nav>
+  <div class="progress"><i id="progress"></i></div>
+  <div class="controls" aria-label="Playback controls">
+    <button id="prev" title="Previous slide" aria-label="Previous slide">&lt;</button>
+    <button id="next" title="Next slide" aria-label="Next slide">&gt;</button>
+    <button id="full" title="Fullscreen" aria-label="Fullscreen">F</button>
+  </div>
+
+<script>
+const slides = [
+  {
+    tone:"gold",
+    eyebrow:"Agentic AI Infrastructure / San Jose",
+    title:["Cyber","Silicon","Valley"],
+    accent:1,
+    tagline:"San Jose as deployable cyber-physical infrastructure",
+    lede:"A cleaner audience-facing narrative on digital twins, edge intelligence, energy orchestration, and deployable cyber-physical infrastructure.",
+    image:"assets/pptx/image1.png",
+    points:[
+      "A city becomes intelligent when sensing, decision-making, and execution work as one system.",
+      "Data centers, BESS, BIM, BAS, and microgrid infrastructure must operate as a coordinated stack.",
+      "The goal is not an AI concept. The goal is a deployable operating model for San Jose."
+    ]
+  },
+  {
+    tone:"blue",
+    eyebrow:"01 / The City Awakens",
+    title:["The","City","Awakens"],
+    accent:1,
+    tagline:"From static infrastructure to live city intelligence",
+    lede:"San Jose is evolving from a physical city into a real-time cyber-physical operating system.",
+    image:"assets/pptx/image2.png",
+    points:[
+      "AI interfaces synchronize the physical city with its live digital twin.",
+      "Traffic, energy, water, and mobility become computable cyber-physical systems.",
+      "Data centers become the infrastructure core that drives intelligent city operations."
+    ]
+  },
+  {
+    tone:"gold",
+    eyebrow:"02 / Already Happening",
+    title:["Already","Happening"],
+    accent:0,
+    tagline:"The digital city is no longer theoretical",
+    lede:"San Jose's urban digital twin is moving from concept into operational reality.",
+    image:"assets/pptx/image1.png",
+    points:[
+      "San Jose has already deployed an urban-scale digital twin with Voxelmaps and NVIDIA involvement.",
+      "The model is designed for high-frequency 3D updates across the city.",
+      "Traffic, EV infrastructure, smart water, and emergency response can operate on the same digital layer."
+    ]
+  },
+  {
+    tone:"red",
+    eyebrow:"03 / The Heart",
+    title:["The","Heart"],
+    accent:1,
+    tagline:"The data center shifts from compute node to city coordinator",
+    lede:"The data center becomes the operational heart of Cyber Silicon Valley.",
+    image:"assets/pptx/image1.png",
+    photo:"assets/photos/server-room.jpg",
+    points:[
+      "Traditional data centers act mainly as passive compute and storage nodes.",
+      "In a city digital twin architecture, they integrate live data and coordinate across systems.",
+      "They connect IoT perception, edge computing, and Agentic AI into one control stack."
+    ]
+  },
+  {
+    tone:"blue",
+    eyebrow:"05 / 10 ms Reflex",
+    title:["10 ms","Reflex"],
+    accent:1,
+    tagline:"Local inference protects the response window",
+    lede:"Edge Computing gives the city millisecond-level reflex capability.",
+    image:"assets/pptx/image2.png",
+    points:[
+      "Some city-control decisions are too latency-sensitive for remote cloud execution.",
+      "Edge Computing moves inference and control close to the data source for millisecond response.",
+      "This architecture improves resilience when local networks, cloud access, or city systems are disrupted."
+    ]
+  },
+  {
+    tone:"gold",
+    eyebrow:"06 / Agentic Brain",
+    title:["Agentic","Brain"],
+    accent:1,
+    tagline:"Thought -> tool use -> controlled execution",
+    lede:"Agentic AI turns intelligence into executable action across the physical city.",
+    image:"assets/pptx/image3.png",
+    points:[
+      "ReAct enables the system to reason, select tools, act, observe results, and update memory.",
+      "Agentic AI can call APIs across BESS, EV charging, traffic signals, BAS, and city operations.",
+      "BIM validation keeps execution physically constrained, auditable, and safe."
+    ]
+  },
+  {
+    tone:"red",
+    eyebrow:"07 / Multi-Agent Collaboration",
+    title:["Multi-Agent","Collaboration"],
+    accent:0,
+    tagline:"One city, many agents, one operating model",
+    lede:"Complex urban systems require specialized agents working under coordinated supervision.",
+    image:"assets/pptx/image4.png",
+    points:[
+      "The architecture combines specialized agents, a Coordinator Agent, and a Supervisor Agent.",
+      "Agents collaborate through ReAct loops and shared memory for joint decision-making.",
+      "At city scale, the hard problem is resolving conflicts across energy, mobility, safety, and compute."
+    ]
+  },
+  {
+    tone:"gold",
+    eyebrow:"08 / Intelligent Energy Dispatch",
+    title:["Intelligent","Energy","Dispatch"],
+    accent:1,
+    tagline:"Energy orchestration becomes an operational advantage",
+    lede:"Agentic AI transforms data center load and BESS into a dynamic urban energy system.",
+    image:"assets/pptx/image5.png",
+    photo:"assets/photos/bess-battery.jpg",
+    points:[
+      "Real-time peak shaving and demand response reduce grid stress and energy-cost exposure.",
+      "EV charging and compute workloads can be scheduled together instead of competing for power.",
+      "Microgrid island mode preserves critical loads during outage or grid instability events."
+    ]
+  },
+  {
+    tone:"blue",
+    eyebrow:"09 / Infrastructure Layer",
+    title:["Soul","Blueprint"],
+    accent:0,
+    tagline:"Physical truth, executable controls, dispatchable resilience",
+    lede:"BIM and BAS make Agentic AI physically grounded instead of purely abstract.",
+    image:"assets/pptx/image6.png",
+    points:[
+      "BIM provides the digital twin of geometry, equipment, power interfaces, and thermal constraints.",
+      "BAS provides the live control layer for cooling, power, charging, and facility systems.",
+      "BESS and microgrid infrastructure convert AI decisions into dispatchable resilience."
+    ]
+  },
+  {
+    tone:"gold",
+    eyebrow:"10 / Technical Architecture and Scale",
+    title:["Architecture","and Scale"],
+    accent:1,
+    tagline:"Scale transforms AI into infrastructure planning",
+    lede:"At San Jose scale, Agentic AI becomes a compute, power, thermal, and regulatory challenge.",
+    image:"assets/pptx/image7.png",
+    photo:"assets/photos/server-room.jpg",
+    points:[
+      "The architecture depends on long-term memory, tool use, multi-step planning, and infrastructure integration.",
+      "At scale, the city may require thousands of racks, massive node counts, and hundreds of MW of reliable power.",
+      "The limiting factors become grid capacity, cooling, graceful shutdown, CEQA review, and energy-code compliance."
+    ]
+  },
+  {
+    tone:"red",
+    eyebrow:"11 / AI Has a Body",
+    title:["AI Has","a Body"],
+    accent:1,
+    tagline:"AI infrastructure has physical consequences",
+    lede:"Power, carbon, water, and heat become executive-level constraints.",
+    image:"assets/pptx/image8.png",
+    points:[
+      "AI data center demand grows rapidly as inference and training workloads expand.",
+      "Carbon emissions and water consumption rise with the physical footprint of AI infrastructure.",
+      "Waste heat, NFPA 855 risk, grid impact, and CEQA scrutiny become unavoidable deployment issues."
+    ]
+  },
+  {
+    tone:"blue",
+    eyebrow:"12 / Integration Is the Bottleneck",
+    title:["Integration","Bottleneck"],
+    accent:0,
+    tagline:"Integration maturity determines deployability",
+    lede:"The real challenge is not one technology. It is coordinated technical and regulatory maturity.",
+    image:"assets/pptx/image9.png",
+    points:[
+      "IoT, Edge, Agentic AI, BESS, microgrid, BIM, and BAS must form a closed-loop system.",
+      "CEQA, SJCE, Resource Adequacy, and NFPA 855 must be addressed as one coordinated compliance story.",
+      "Cyber Silicon Valley becomes deployable only when technical architecture and regulatory readiness mature together."
+    ]
+  },
+  {
+    tone:"gold",
+    eyebrow:"Closing / Deployable Cyber Silicon Valley",
+    title:["Deployable","Cyber","Silicon Valley"],
+    accent:0,
+    tagline:"Begin narrow. Validate the loop. Then scale.",
+    lede:"The path forward is a staged, validated transition from fragmented systems to coordinated deployment.",
+    image:"assets/pptx/image10.png",
+    points:[
+      "Start with a narrow, defensible pilot around BESS, data center load management, BIM, and BAS.",
+      "Validate ReAct reasoning, tool calling, BAS execution, BIM constraints, and measurable outcomes.",
+      "Scale outward only after the operating model proves safety, reliability, cost control, and compliance readiness."
+    ]
+  }
+];
+
+const deck = document.getElementById("deck");
+const rail = document.getElementById("rail");
+const progress = document.getElementById("progress");
+let active = 0;
+
+function esc(value){
+  return String(value).replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", "\"":"&quot;", "'":"&#39;" }[c]));
+}
+
+function titleHtml(slide){
+  return slide.title.map((line, idx) => `<span class="${idx === slide.accent ? "accent" : ""}">${esc(line)}</span>`).join("<br>");
+}
+
+function render(){
+  deck.innerHTML = slides.map((slide, idx) => `
+    <section class="slide ${idx === 0 ? "active" : ""} ${slide.photo ? "vivid" : ""}" data-tone="${esc(slide.tone)}">
+      <div class="hero-media"><div class="image" style="background-image:url('${esc(slide.photo || slide.image)}')"></div></div>
+      <div class="chapter"><span>${esc(slide.eyebrow.split("/")[0].trim())}</span><span class="number">${String(idx + 1).padStart(2,"0")}</span></div>
+      <div class="content">
+        <div class="topline reveal"><span class="mark"><i></i><i></i><i></i></span><span>${esc(slide.tagline)}</span></div>
+        <div class="main">
+          <p class="kicker reveal">${esc(slide.eyebrow)}</p>
+          <h1 class="reveal">${titleHtml(slide)}</h1>
+          <p class="lede reveal">${esc(slide.lede)}</p>
+          <div class="proof">
+            ${slide.points.map((point, pointIdx) => `
+              <div class="spec">
+                <span class="num">${String(pointIdx + 1).padStart(2,"0")}</span>
+                <p>${esc(point)}</p>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+        <div class="footer">
+          <div><div class="rule"></div><span>Supermicro / SJEC Expo / Cyber Silicon Valley</span></div>
+          <span><strong>${String(idx + 1).padStart(2,"0")}</strong> / ${String(slides.length).padStart(2,"0")}</span>
+        </div>
+      </div>
+    </section>
+  `).join("");
+
+  rail.innerHTML = slides.map((_, idx) => `<button class="dot ${idx === 0 ? "on" : ""}" data-slide="${idx}" title="Slide ${idx + 1}" aria-label="Go to slide ${idx + 1}"></button>`).join("");
+  rail.querySelectorAll("button").forEach(btn => btn.addEventListener("click", () => go(Number(btn.dataset.slide))));
+  const params = new URLSearchParams(location.search);
+  const requested = Number(params.get("slide") || "1");
+  if(params.get("export") === "1"){
+    document.body.classList.add("exporting");
+  }
+  go(Number.isFinite(requested) ? requested - 1 : 0);
+}
+
+const sweep = document.getElementById("sweep");
+function runSweep(dir){
+  if(!sweep) return;
+  sweep.classList.remove("run","rev");
+  void sweep.offsetWidth;            // restart the animation
+  sweep.classList.add("run");
+  if(dir < 0) sweep.classList.add("rev");
+}
+
+function go(next){
+  const target = Math.max(0, Math.min(slides.length - 1, next));
+  if(target !== active) runSweep(target > active ? 1 : -1);
+  active = target;
+  document.querySelectorAll(".slide").forEach((slide, idx) => slide.classList.toggle("active", idx === active));
+  document.querySelectorAll(".dot").forEach((dot, idx) => dot.classList.toggle("on", idx === active));
+  progress.style.width = `${((active + 1) / slides.length) * 100}%`;
+}
+
+document.getElementById("prev").addEventListener("click", () => go(active - 1));
+document.getElementById("next").addEventListener("click", () => go(active + 1));
+document.getElementById("full").addEventListener("click", () => {
+  if(document.fullscreenElement){ document.exitFullscreen(); }
+  else { document.documentElement.requestFullscreen(); }
+});
+
+addEventListener("keydown", event => {
+  if(["ArrowRight","PageDown"," "].includes(event.key)){ event.preventDefault(); go(active + 1); }
+  if(["ArrowLeft","PageUp"].includes(event.key)){ event.preventDefault(); go(active - 1); }
+  if(event.key.toLowerCase() === "f"){ document.getElementById("full").click(); }
+});
+
+render();
+</script>
+</body>
+</html>
