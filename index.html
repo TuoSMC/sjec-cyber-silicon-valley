@@ -408,8 +408,8 @@
   }
 
   /* alternate layout: "wall" (problem grid) - same style, different composition */
-  .slide.wall .hero-media,.slide.stat .hero-media,.slide.loop .hero-media,.slide.agents .hero-media,.slide.react .hero-media{display:none}
-  .slide.wall .content,.slide.stat .content,.slide.loop .content,.slide.agents .content,.slide.react .content{width:auto;right:var(--pad-x)}
+  .slide.wall .hero-media,.slide.stat .hero-media,.slide.loop .hero-media,.slide.agents .hero-media,.slide.react .hero-media,.slide.stack .hero-media{display:none}
+  .slide.wall .content,.slide.stat .content,.slide.loop .content,.slide.agents .content,.slide.react .content,.slide.stack .content{width:auto;right:var(--pad-x)}
   .wallmain{align-self:center}
   .wallhead{margin:0 0 6px;font-family:Inter,system-ui,sans-serif;font-weight:800;text-transform:uppercase;
     line-height:.96;letter-spacing:.01em;font-size:clamp(34px,min(5.4vw,8vh),68px);max-width:20ch}
@@ -465,6 +465,18 @@
   .rchip{fill:rgba(116,199,232,.05);stroke:rgba(116,199,232,.32);stroke-width:1}
   .rchip-l{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:9px;fill:#b8d8e6;letter-spacing:.05em}
   @keyframes flow{to{stroke-dashoffset:-28}}
+
+  /* stack (3D layered) diagram */
+  .stack svg{display:block;width:100%;height:auto;max-height:53vh;margin:6px 0 0}
+  .plate{stroke-width:1.5;filter:drop-shadow(0 7px 12px rgba(0,0,0,.6))}
+  .plate-c{fill:rgba(18,26,34,.92);stroke:rgba(116,199,232,.6)}
+  .plate-g{fill:rgba(46,37,18,.95);stroke:rgba(185,154,88,.9)}
+  .plate-side{stroke-width:1}
+  .plate-side-l{fill:rgba(7,12,17,.97);stroke:rgba(116,199,232,.22)}
+  .plate-side-r{fill:rgba(12,19,26,.97);stroke:rgba(116,199,232,.32)}
+  .pl-l{font-family:Inter,system-ui,sans-serif;font-weight:800;font-size:21px;fill:#f3f7f8;letter-spacing:.05em}
+  .pl-l.g{fill:#e6cf95}
+  .pl-d{font-family:'JetBrains Mono',monospace;font-size:11px;fill:#9aa0a6}
 
   @media (max-width:900px){
     .deck{overflow:auto}
@@ -596,7 +608,7 @@ const slides = [
   },
   {
     tone:"red",
-    layout:"agents",
+    layout:"stack",
     eyebrow:"07 / Multi-Agent Collaboration",
     supervisor:"SUPERVISOR + COORDINATOR - sets the global objective, arbitrates conflict, syncs tasks",
     agents:[
@@ -751,6 +763,13 @@ function mainBlock(slide){
   }
   if(slide.layout === "react"){
     return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="diagram reveal"><svg viewBox="0 0 1060 520" preserveAspectRatio="xMidYMid meet"><defs><marker id="ah" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#74c7e8"/></marker><marker id="ahg" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#b99a58"/></marker></defs><path class="rfeedback" d="M950,268 C 840,90 260,90 150,268" marker-end="url(#ahg)"/><text class="rlabel rgold" x="550" y="78" text-anchor="middle">RETRIEVE / RE-PLAN - CLOSE THE LOOP</text><path class="rfeedback" d="M690,332 C 600,478 300,478 150,332" marker-end="url(#ahg)"/><text class="rlabel rgold" x="415" y="502" text-anchor="middle">RE-REASON ON RESULT</text><path class="rlink" d="M230,300 L334,300"/><path class="rflow" d="M230,300 L334,300" marker-end="url(#ah)"/><text class="rlabel" x="282" y="289" text-anchor="middle">SELECT TOOL</text><path class="rlink" d="M770,300 L864,300"/><path class="rflow" d="M770,300 L864,300" marker-end="url(#ah)"/><text class="rlabel" x="817" y="289" text-anchor="middle">EMBED</text><path class="rflow" d="M500,292 L540,224"/><polygon class="rgate" points="555,198 582,218 555,238 528,218"/><text class="rgate-l" x="555" y="182" text-anchor="middle">BIM / BAS VALIDATE</text><path class="rflow" d="M570,224 L610,292" marker-end="url(#ah)"/><path class="rlink" d="M420,332 L378,392"/><path class="rlink" d="M420,332 L470,392"/><path class="rlink" d="M420,332 L562,392"/><rect class="rchip" x="333" y="392" width="90" height="26" rx="3"/><text class="rchip-l" x="378" y="409" text-anchor="middle">BESS</text><rect class="rchip" x="425" y="392" width="90" height="26" rx="3"/><text class="rchip-l" x="470" y="409" text-anchor="middle">EV-CHARGER</text><rect class="rchip" x="517" y="392" width="90" height="26" rx="3"/><text class="rchip-l" x="562" y="409" text-anchor="middle">SIGNALS</text><g><rect class="rnode" x="70" y="268" width="160" height="64" rx="4"/><text class="rnode-l" x="150" y="298" text-anchor="middle">REASON</text><text class="rnode-d" x="150" y="318" text-anchor="middle">PG&amp;E / CAISO / BESS / BIM</text></g><g><rect class="rnode" x="340" y="268" width="160" height="64" rx="4"/><text class="rnode-l" x="420" y="298" text-anchor="middle">ACT</text><text class="rnode-d" x="420" y="318" text-anchor="middle">call tools / BACnet</text></g><g><rect class="rnode" x="610" y="268" width="160" height="64" rx="4"/><text class="rnode-l" x="690" y="298" text-anchor="middle">OBSERVE</text><text class="rnode-d" x="690" y="318" text-anchor="middle">power / carbon / latency</text></g><g><rect class="rnode" x="870" y="268" width="160" height="64" rx="4"/><text class="rnode-l" x="950" y="298" text-anchor="middle">MEMORY</text><text class="rnode-d" x="950" y="318" text-anchor="middle">embed / store / audit</text></g></svg></div><p class="wallclose reveal">${esc(slide.callout)}</p></div>`;
+  }
+  if(slide.layout === "stack"){
+    const chips = slide.agents.map((a,i)=>{const x=[140,310,540,770,940][i]||540;return `<line class="rlink" x1="${x}" y1="556" x2="540" y2="532"/><rect class="rchip" x="${x-58}" y="556" width="116" height="26" rx="3"/><text class="rchip-l" x="${x}" y="573" text-anchor="middle">${esc(a.k)}</text>`;}).join("");
+    const T=16;
+    const plate=(cy,RX,RY,gold,main,sub)=>{const L=540-RX,R=540+RX,B=cy+RY;return `<polygon class="plate-side plate-side-l" points="${L},${cy} 540,${B} 540,${B+T} ${L},${cy+T}"/><polygon class="plate-side plate-side-r" points="540,${B} ${R},${cy} ${R},${cy+T} 540,${B+T}"/><polygon class="plate ${gold?'plate-g':'plate-c'}" points="${L},${cy} 540,${cy-RY} ${R},${cy} 540,${B}"/><text class="pl-l${gold?' g':''}" x="540" y="${cy-1}" text-anchor="middle">${main}</text><text class="pl-d" x="540" y="${cy+17}" text-anchor="middle">${sub}</text>`;};
+    const stack=plate(480,330,50,false,'AGGREGATE','5 specialized agents')+plate(392,262,44,false,'ORGANIZE','Coordinator - sync + assign')+plate(308,206,38,false,'REASON','shared memory + ReAct')+plate(228,158,32,false,'CONCLUDE','Supervisor - global objective')+plate(152,118,27,true,'DECIDE','one validated action');
+    return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="diagram reveal"><svg viewBox="0 0 1080 600" preserveAspectRatio="xMidYMid meet"><defs><marker id="ahg2" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#e6cf95"/></marker></defs><path class="rflow" d="M430,540 L430,150"/><path class="rflow" d="M540,540 L540,120"/><path class="rflow" d="M650,540 L650,150"/><path class="rfeedback" d="M658,152 C 1016,190 1016,472 870,480" marker-end="url(#ahg2)"/><text class="rlabel rgold" x="992" y="332" text-anchor="middle" transform="rotate(90 992 332)">RE-RUN THE LOOP</text>${chips}${stack}</svg></div><p class="wallclose reveal">${esc(slide.floor)}</p></div>`;
   }
   if(slide.layout === "stat"){
     return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="stats reveal">${slide.stats.map(s=>`<div class="stat"><div class="sv">${esc(s.v)}</div><div class="sk">${esc(s.k)}</div></div>`).join("")}</div><p class="wallclose reveal">${esc(slide.weld)}</p><p class="wallsub reveal">${esc(slide.scale2)}</p></div>`;
