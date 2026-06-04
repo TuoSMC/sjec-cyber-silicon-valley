@@ -410,8 +410,8 @@
   }
 
   /* alternate layout: "wall" (problem grid) - same style, different composition */
-  .slide.wall .hero-media,.slide.stat .hero-media,.slide.loop .hero-media,.slide.agents .hero-media,.slide.react .hero-media,.slide.stack .hero-media,.slide.split .hero-media,.slide.lede .hero-media,.slide.twocol .hero-media,.slide.pillars .hero-media,.slide.timeline .hero-media,.slide.ladder .hero-media{display:none}
-  .slide.wall .content,.slide.stat .content,.slide.loop .content,.slide.agents .content,.slide.react .content,.slide.stack .content,.slide.split .content,.slide.lede .content,.slide.twocol .content,.slide.pillars .content,.slide.timeline .content,.slide.ladder .content{width:auto;right:var(--pad-x)}
+  .slide.wall .hero-media,.slide.stat .hero-media,.slide.loop .hero-media,.slide.agents .hero-media,.slide.react .hero-media,.slide.stack .hero-media,.slide.split .hero-media,.slide.lede .hero-media,.slide.twocol .hero-media,.slide.pillars .hero-media,.slide.timeline .hero-media,.slide.ladder .hero-media,.slide.barrier .hero-media{display:none}
+  .slide.wall .content,.slide.stat .content,.slide.loop .content,.slide.agents .content,.slide.react .content,.slide.stack .content,.slide.split .content,.slide.lede .content,.slide.twocol .content,.slide.pillars .content,.slide.timeline .content,.slide.ladder .content,.slide.barrier .content{width:auto;right:var(--pad-x)}
   .wallmain{align-self:center;width:100%}
   .wallhead{margin:0 0 6px;font-family:Inter,system-ui,sans-serif;font-weight:800;text-transform:uppercase;
     line-height:.96;letter-spacing:.01em;font-size:clamp(34px,min(5.4vw,8vh),68px);max-width:20ch}
@@ -548,6 +548,25 @@
   .rk{font-family:Inter,system-ui,sans-serif;font-weight:800;font-size:clamp(15px,1.4vw,22px);text-transform:uppercase;color:#f3f7f8;line-height:1.05}
   .rd{font-size:12.5px;line-height:1.42;color:#9aa0a6;font-weight:300}
   .rd b{color:#b8d8e6;font-weight:600}
+
+  /* barrier schematic layout (rack -> wall of constraints -> deployment) */
+  .barrier .diagram{display:flex;justify-content:center}
+  .barrier svg{width:100%;height:auto;max-height:52vh;margin:6px 0 2px}
+  .rackbox{fill:rgba(116,199,232,.06);stroke:#74c7e8;stroke-width:1.4}
+  .rackslot{fill:rgba(116,199,232,.13);stroke:rgba(116,199,232,.4);stroke-width:.5}
+  .bbrick{fill:rgba(13,20,27,.96);stroke:rgba(116,199,232,.5);stroke-width:1.1}
+  .bbrickcap{fill:rgba(192,83,62,.16)}
+  .bk2{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;fill:#b8d8e6;letter-spacing:.08em}
+  .bv2{font-family:Inter,system-ui,sans-serif;font-weight:800;font-size:17px;fill:#f3f7f8}
+  .bd2{font-family:'JetBrains Mono',monospace;font-size:10px;fill:#9aa0a6}
+  .blabel{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:11px;letter-spacing:.1em;fill:#b8d8e6}
+  .blabel.ok{fill:#74d6a0}
+  .blabel.bad{fill:#d98a76;letter-spacing:.12em;font-size:12px}
+  .blink{stroke:rgba(116,199,232,.4);stroke-width:1.3;fill:none}
+  .bflow-ok{stroke:#74d6a0;stroke-width:2.6;stroke-dasharray:2 12;stroke-linecap:round;fill:none;filter:drop-shadow(0 0 5px rgba(116,214,160,.8));animation:flow .7s linear infinite}
+  .bflow-dim{stroke:rgba(116,199,232,.35);stroke-width:1.6;stroke-dasharray:4 8;fill:none}
+  .bblock{stroke:#d9624a;stroke-width:2.4;fill:none;stroke-linecap:round;filter:drop-shadow(0 0 4px rgba(217,98,74,.7))}
+  .bcity{fill:rgba(116,199,232,.05);stroke:rgba(116,199,232,.26);stroke-width:1}
 
   @media (max-width:900px){
     .deck{overflow:auto}
@@ -765,7 +784,7 @@ const slides = [
     ]
   },
   {
-    layout:"wall",
+    layout:"barrier",
     tone:"red",
     eyebrow:"Deployment Reality",
     title:["The Rack Is the","Easy Part"],
@@ -1037,6 +1056,21 @@ function mainBlock(slide){
   }
   if(slide.layout === "ladder"){
     return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="ladder reveal">${slide.wall.map((w,i)=>`<div class="rung" style="--lvl:${i}"><span class="rn">${String(i+1).padStart(2,"0")}</span><div class="rbody"><div class="rk">${esc(w.k)}</div><div class="rd"><b>${esc(w.v)}</b> ${esc(w.d)}</div></div></div>`).join("")}</div><p class="wallclose reveal">${esc(slide.close)}</p></div>`;
+  }
+  if(slide.layout === "barrier"){
+    const items = slide.wall;
+    const bw=224, bh=74, gx=12, gy=8, x0=316, y0=92;
+    let bricks='';
+    items.forEach((it,i)=>{
+      const r=Math.floor(i/2), c=i%2;
+      const lone=(i===items.length-1 && items.length%2===1);
+      const x=lone ? x0+(bw+gx)/2 : x0 + c*(bw+gx);
+      const y=y0 + r*(bh+gy);
+      bricks += `<rect class="bbrick" x="${x}" y="${y}" width="${bw}" height="${bh}" rx="2"/><rect class="bbrickcap" x="${x}" y="${y}" width="${bw}" height="6"/><text class="bk2" x="${x+16}" y="${y+32}">${esc(it.k)}</text><text class="bv2" x="${x+16}" y="${y+57}">${esc(it.v)}</text>`;
+    });
+    let slots='';for(let s=0;s<5;s++){slots+=`<rect class="rackslot" x="38" y="${170+s*30}" width="90" height="20" rx="1.5"/>`;}
+    let city='';const ch=[64,104,150,86,124,58];let cx=866;ch.forEach(h=>{city+=`<rect class="bcity" x="${cx}" y="${382-h}" width="30" height="${h}"/>`;cx+=38;});
+    return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="diagram reveal"><svg viewBox="0 0 1120 470" preserveAspectRatio="xMidYMid meet"><defs><marker id="ahok" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#74d6a0"/></marker><marker id="ahdim" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="rgba(116,199,232,.5)"/></marker></defs><rect class="rackbox" x="28" y="152" width="108" height="170" rx="4"/>${slots}<text class="blabel" x="82" y="140" text-anchor="middle">THE RACK</text><text class="blabel ok" x="82" y="342" text-anchor="middle">EASY PART &#10003;</text><line class="blink" x1="140" y1="236" x2="300" y2="236"/><line class="bflow-ok" x1="140" y1="236" x2="296" y2="236" marker-end="url(#ahok)"/><path class="bblock" d="M302,212 L316,236 L302,260"/><path class="bblock" d="M292,220 L306,236 L292,252"/><text class="blabel bad" x="546" y="78" text-anchor="middle">THE WALL &#8212; WHERE DEPLOYMENTS DIE</text>${bricks}<line class="bflow-dim" x1="782" y1="236" x2="858" y2="236" marker-end="url(#ahdim)"/>${city}<text class="blabel" x="950" y="402" text-anchor="middle" opacity=".62">LIVE DEPLOYMENT</text></svg></div><p class="wallclose reveal">${esc(slide.close)}</p></div>`;
   }
   return `<div class="main"><p class="kicker reveal">${esc(slide.eyebrow)}</p><h1 class="reveal">${titleHtml(slide)}</h1><p class="lede reveal">${esc(slide.lede)}</p><div class="proof">${slide.points.map((point,pointIdx)=>`<div class="spec"><span class="num">${String(pointIdx+1).padStart(2,"0")}</span><p>${esc(point)}</p></div>`).join("")}</div></div>`;
 }
