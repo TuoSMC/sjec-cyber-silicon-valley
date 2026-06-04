@@ -758,8 +758,38 @@ const slides = [
     close:"From 1,000 homes to a small city - in a single rack generation."
   },
   {
+    layout:"wall",
     tone:"blue",
-    eyebrow:"15 / The Answer",
+    eyebrow:"15 / System-Level Design",
+    title:["The Rack Is the","Unit of Design"],
+    accent:1,
+    tagline:"Old world: server, rack, repeat. New world: integrated system design.",
+    wall:[
+      {k:"RACK", v:"compute", d:"the smallest unit of system design"},
+      {k:"ROW", v:"cooling + power", d:"distribution"},
+      {k:"CLUSTER", v:"networking fabric", d:"scale-out"},
+      {k:"DATA CENTER", v:"power + water", d:"management infrastructure"}
+    ],
+    close:"Compute, cooling, and fabric are now co-designed - not bolted together."
+  },
+  {
+    layout:"wall",
+    tone:"red",
+    eyebrow:"16 / New Operating Model",
+    title:["Agentic Needs a","New Operating Model"],
+    accent:1,
+    tagline:"Not just racks - now service environments.",
+    wall:[
+      {k:"DATA MOVES LOCAL", v:"KV cache / vector DB", d:"session state at the edge"},
+      {k:"EAST-WEST EXPLODES", v:"high fan-out", d:"parallel agent actions"},
+      {k:"LATENCY-SENSITIVE", v:"continuous demand", d:"agentic, always-on"},
+      {k:"NEO-CLOUD", v:"new on-prem", d:"distributed, app-driven"}
+    ],
+    close:"Enterprise AI = distributed, latency-sensitive, application-driven workloads."
+  },
+  {
+    tone:"blue",
+    eyebrow:"17 / The Answer",
     title:["DCBBS"],
     accent:0,
     tagline:"Data Center Building Block Solutions",
@@ -775,7 +805,7 @@ const slides = [
   {
     layout:"wall",
     tone:"blue",
-    eyebrow:"16 / Power & Cooling",
+    eyebrow:"18 / Power & Cooling",
     title:["Liquid Cooling","at Any Density"],
     accent:1,
     tagline:"Air cooling disappears above 50 kW. We bring the liquid.",
@@ -792,7 +822,7 @@ const slides = [
   {
     layout:"wall",
     tone:"gold",
-    eyebrow:"17 / Rack-Scale + Software",
+    eyebrow:"19 / Rack-Scale + Software",
     title:["Compute, Managed","and Monetized"],
     accent:1,
     tagline:"From silicon to AI service - one stack.",
@@ -808,8 +838,38 @@ const slides = [
   },
   {
     layout:"stat",
+    tone:"gold",
+    eyebrow:"20 / AMD Helios Rackscale",
+    title:["Rack-Level","AI Factory Output"],
+    accent:1,
+    tagline:"72 AMD Instinct MI455X GPUs - at-scale inference and training.",
+    stats:[
+      {v:"2.9 Exaflops", k:"PEAK 4-BIT AI (MXFP4)"},
+      {v:"31 TB", k:"HBM4 MEMORY / RACK"},
+      {v:"1.4 PB/s", k:"MEMORY BANDWIDTH"}
+    ],
+    weld:"Up to 260 TB/s scale-up and 43 TB/s scale-out per rackscale solution, on 2nm / 3nm process.",
+    scale2:"Built for hyperscalers, AI NeoCloud providers, and sovereign AI. Inference -> Training -> Fine-tuning."
+  },
+  {
+    layout:"wall",
+    tone:"blue",
+    eyebrow:"21 / Open Rack Wide",
+    title:["The Rack Standard","Is Changing"],
+    accent:1,
+    tagline:"ORv3 to ORW - density measured in floors, not just rack units.",
+    wall:[
+      {k:"HIGHER DENSITY", v:"wider trays", d:"large AI compute + manifolds"},
+      {k:"SERVICEABILITY", v:"double-wide", d:"lower weight density, better access"},
+      {k:"ADVANCED COOLING", v:"liquid-ready", d:"manifolds + power systems"},
+      {k:"OPEN STANDARD", v:"ORv3 / ORW", d:"NVL72-class racks"}
+    ],
+    close:"The frame itself is being re-engineered for the AI era."
+  },
+  {
+    layout:"stat",
     tone:"red",
-    eyebrow:"18 / What Happens Next",
+    eyebrow:"22 / What Happens Next",
     title:["Plan for the","Scale Shift"],
     accent:1,
     tagline:"We're not scaling racks anymore - we're scaling constraints.",
