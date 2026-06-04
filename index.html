@@ -410,8 +410,8 @@
   }
 
   /* alternate layout: "wall" (problem grid) - same style, different composition */
-  .slide.wall .hero-media,.slide.stat .hero-media,.slide.loop .hero-media,.slide.agents .hero-media,.slide.react .hero-media,.slide.stack .hero-media{display:none}
-  .slide.wall .content,.slide.stat .content,.slide.loop .content,.slide.agents .content,.slide.react .content,.slide.stack .content{width:auto;right:var(--pad-x)}
+  .slide.wall .hero-media,.slide.stat .hero-media,.slide.loop .hero-media,.slide.agents .hero-media,.slide.react .hero-media,.slide.stack .hero-media,.slide.split .hero-media,.slide.lede .hero-media,.slide.twocol .hero-media,.slide.pillars .hero-media,.slide.timeline .hero-media,.slide.ladder .hero-media{display:none}
+  .slide.wall .content,.slide.stat .content,.slide.loop .content,.slide.agents .content,.slide.react .content,.slide.stack .content,.slide.split .content,.slide.lede .content,.slide.twocol .content,.slide.pillars .content,.slide.timeline .content,.slide.ladder .content{width:auto;right:var(--pad-x)}
   .wallmain{align-self:center}
   .wallhead{margin:0 0 6px;font-family:Inter,system-ui,sans-serif;font-weight:800;text-transform:uppercase;
     line-height:.96;letter-spacing:.01em;font-size:clamp(34px,min(5.4vw,8vh),68px);max-width:20ch}
@@ -496,6 +496,58 @@
   .mini-l{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:9px;fill:#b8d8e6;letter-spacing:.04em}
   @keyframes pulse{50%{opacity:.3}}
 
+  /* split layout: points + framed photo */
+  .splitwrap{display:flex;gap:38px;align-items:center;width:100%}
+  .splitL{flex:1 1 0;min-width:0}
+  .splitpts{display:flex;flex-direction:column;gap:14px;margin:22px 0 18px}
+  .spitem{display:flex;gap:14px;align-items:flex-start}
+  .spitem .spn{font:700 12px/1.4 'JetBrains Mono',monospace;color:#74c7e8;letter-spacing:.1em;padding-top:3px}
+  .spitem p{margin:0;font-size:clamp(13px,1.15vw,16px);line-height:1.5;color:#d4dcde;font-weight:300}
+  .splitR{position:relative;flex:0 0 38%;align-self:stretch;margin:0;min-height:54vh;max-height:64vh}
+  .splitimg{position:absolute;inset:0;background-position:center;background-size:cover;border:1px solid rgba(116,199,232,.2);border-radius:5px;filter:drop-shadow(0 0 30px rgba(116,199,232,.16))}
+  .splitfr{position:absolute;inset:-8px;border:1px solid rgba(116,199,232,.18);border-radius:7px;pointer-events:none}
+
+  /* lede / manifesto layout */
+  .ledehead{margin:6px 0 4px;font-family:Inter,system-ui,sans-serif;font-weight:800;text-transform:uppercase;line-height:.96;font-size:clamp(40px,min(6.4vw,9vh),84px)}
+  .ledebig{margin:18px 0 26px;font-family:Inter,system-ui,sans-serif;font-weight:300;font-size:clamp(22px,2.6vw,40px);line-height:1.28;color:#eef4f6;max-width:24ch}
+  .ledepts{display:flex;gap:26px;flex-wrap:wrap;border-top:1px solid rgba(116,199,232,.18);padding-top:18px}
+  .ledept{flex:1 1 0;min-width:200px;display:flex;gap:11px;align-items:flex-start}
+  .ledept span{font:700 12px/1.3 'JetBrains Mono',monospace;color:#74c7e8;letter-spacing:.1em}
+  .ledept p{margin:0;font-size:13px;line-height:1.5;color:#9aa0a6;font-weight:300}
+
+  /* twocol layout */
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:16px 30px;margin:26px 0 18px}
+  .tcitem{display:flex;gap:14px;align-items:flex-start;border-left:2px solid rgba(116,199,232,.4);padding:4px 0 4px 16px}
+  .tcitem .tcn{font:700 13px/1.4 'JetBrains Mono',monospace;color:#74c7e8;letter-spacing:.08em}
+  .tcitem p{margin:0;font-size:clamp(13px,1.15vw,16px);line-height:1.5;color:#d4dcde;font-weight:300}
+
+  /* pillars layout */
+  .pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:26px 0 16px;align-items:end}
+  .pillar{display:flex;flex-direction:column;gap:9px;border:1px solid rgba(116,199,232,.2);background:linear-gradient(180deg,rgba(116,199,232,.02),rgba(116,199,232,.07));padding:16px 15px 17px}
+  .pcap{font:600 11px/1.2 'JetBrains Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#b8d8e6}
+  .pval{font-family:Inter,system-ui,sans-serif;font-weight:800;font-size:clamp(18px,1.7vw,27px);color:#f3f7f8;line-height:1.02}
+  .pbar{height:3px;background:linear-gradient(90deg,#2b8ac5,#74c7e8);opacity:.8}
+  .pdesc{font-size:12px;line-height:1.42;color:#9aa0a6;font-weight:300}
+
+  /* timeline layout */
+  .tline{position:relative;display:flex;justify-content:space-between;gap:10px;margin:40px 0 22px;padding-top:14px}
+  .tline-rail{position:absolute;top:20px;left:8px;right:8px;height:2px;background:linear-gradient(90deg,rgba(116,199,232,.15),rgba(116,199,232,.55),rgba(185,154,88,.7))}
+  .tnode{position:relative;flex:1 1 0;display:flex;flex-direction:column;gap:6px;padding-right:8px}
+  .tdot{position:absolute;top:-20px;left:0;width:11px;height:11px;border-radius:50%;background:#0c1318;border:2px solid #74c7e8;box-shadow:0 0 10px rgba(116,199,232,.7)}
+  .tnode:last-child .tdot{border-color:#e6cf95;box-shadow:0 0 10px rgba(185,154,88,.8)}
+  .tk{font:600 10.5px/1.2 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#b8d8e6}
+  .tv{font-family:Inter,system-ui,sans-serif;font-weight:800;font-size:clamp(16px,1.5vw,24px);color:#f3f7f8;line-height:1.05}
+  .td{font-size:11.5px;line-height:1.4;color:#9aa0a6;font-weight:300}
+
+  /* ladder layout */
+  .ladder{display:flex;flex-direction:column;gap:9px;margin:24px 0 18px}
+  .rung{display:flex;gap:16px;align-items:center;border:1px solid rgba(116,199,232,.2);background:rgba(116,199,232,.045);padding:13px 16px;margin-left:calc(var(--lvl) * 6%);border-left:3px solid #74c7e8}
+  .rung .rn{font:700 15px/1 'JetBrains Mono',monospace;color:#74c7e8;letter-spacing:.06em}
+  .rbody{display:flex;flex-direction:column;gap:3px}
+  .rk{font-family:Inter,system-ui,sans-serif;font-weight:800;font-size:clamp(15px,1.4vw,22px);text-transform:uppercase;color:#f3f7f8;line-height:1.05}
+  .rd{font-size:12.5px;line-height:1.42;color:#9aa0a6;font-weight:300}
+  .rd b{color:#b8d8e6;font-weight:600}
+
   @media (max-width:900px){
     .deck{overflow:auto}
     body{overflow:auto}
@@ -547,6 +599,8 @@ const slides = [
   },
   {
     tone:"blue",
+    layout:"split",
+    sideimg:"assets/photos/rack-datacenter.jpg",
     eyebrow:"01 / The City Awakens",
     title:["The","City","Awakens"],
     accent:1,
@@ -561,6 +615,7 @@ const slides = [
   },
   {
     tone:"gold",
+    layout:"lede",
     eyebrow:"02 / Already Happening",
     title:["Already","Happening"],
     accent:0,
@@ -590,6 +645,7 @@ const slides = [
   },
   {
     tone:"blue",
+    layout:"twocol",
     eyebrow:"05 / 10 ms Reflex",
     title:["10 ms","Reflex"],
     accent:1,
@@ -650,13 +706,14 @@ const slides = [
   },
   {
     tone:"gold",
+    layout:"split",
+    sideimg:"assets/photos/bess-battery.jpg",
     eyebrow:"08 / Intelligent Energy Dispatch",
     title:["Intelligent","Energy","Dispatch"],
     accent:1,
     tagline:"Energy orchestration becomes an operational advantage",
     lede:"Agentic AI transforms data center load and BESS into a dynamic urban energy system.",
     image:"assets/pptx/image5.png",
-    photo:"assets/photos/bess-battery.jpg",
     points:[
       "Real-time peak shaving and demand response reduce grid stress and energy-cost exposure.",
       "EV charging and compute workloads can be scheduled together instead of competing for power.",
@@ -665,12 +722,19 @@ const slides = [
   },
   {
     tone:"blue",
+    layout:"pillars",
     eyebrow:"09 / Infrastructure Layer",
     title:["Soul","Blueprint"],
     accent:0,
     tagline:"Physical truth, executable controls, dispatchable resilience",
     lede:"BIM and BAS make Agentic AI physically grounded instead of purely abstract.",
     image:"assets/pptx/image6.png",
+    wall:[
+      {k:"BIM", v:"Physical Truth", d:"digital twin of geometry, equipment, power interfaces, and thermal constraints"},
+      {k:"BAS", v:"Live Control", d:"executable layer for cooling, power, charging, and facility systems"},
+      {k:"BESS + MICROGRID", v:"Dispatchable", d:"converts AI decisions into dispatchable resilience"}
+    ],
+    close:"BIM is the body, BAS is the nervous system, BESS is the dispatchable muscle.",
     points:[
       "BIM provides the digital twin of geometry, equipment, power interfaces, and thermal constraints.",
       "BAS provides the live control layer for cooling, power, charging, and facility systems.",
@@ -693,7 +757,6 @@ const slides = [
     tagline:"Scale transforms AI into infrastructure planning",
     lede:"At San Jose scale, Agentic AI becomes a compute, power, thermal, and regulatory challenge.",
     image:"assets/pptx/image7.png",
-    photo:"assets/photos/server-room.jpg",
     points:[
       "The architecture depends on long-term memory, tool use, multi-step planning, and infrastructure integration.",
       "At scale, the city may require thousands of racks, massive node counts, and hundreds of MW of reliable power.",
@@ -720,6 +783,7 @@ const slides = [
   },
   {
     tone:"red",
+    layout:"twocol",
     eyebrow:"12 / AI Has a Body",
     title:["AI Has","a Body"],
     accent:1,
@@ -734,6 +798,7 @@ const slides = [
   },
   {
     tone:"blue",
+    layout:"lede",
     eyebrow:"13 / Integration Is the Bottleneck",
     title:["Integration","Bottleneck"],
     accent:0,
@@ -747,7 +812,7 @@ const slides = [
     ]
   },
   {
-    layout:"wall",
+    layout:"timeline",
     tone:"red",
     eyebrow:"14 / The Power Reality",
     title:["AI Is Redefining","Data-Center Power"],
@@ -763,7 +828,7 @@ const slides = [
     close:"From 1,000 homes to a small city - in a single rack generation."
   },
   {
-    layout:"wall",
+    layout:"ladder",
     tone:"blue",
     eyebrow:"15 / System-Level Design",
     title:["The Rack Is the","Unit of Design"],
@@ -809,7 +874,7 @@ const slides = [
     ]
   },
   {
-    layout:"wall",
+    layout:"pillars",
     tone:"blue",
     eyebrow:"18 / Power & Cooling",
     rackimg:"assets/epic/rack-a.png",
@@ -862,7 +927,7 @@ const slides = [
     scale2:"Built for hyperscalers, AI NeoCloud providers, and sovereign AI. Inference -> Training -> Fine-tuning."
   },
   {
-    layout:"wall",
+    layout:"timeline",
     tone:"blue",
     eyebrow:"21 / Open Rack Wide",
     optional:true,
@@ -952,6 +1017,25 @@ function mainBlock(slide){
   }
   if(slide.layout === "agents"){
     return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="super reveal">${esc(slide.supervisor)}</div><div class="bricks agentrow reveal">${slide.agents.map(a=>`<div class="brick"><div class="bk">${esc(a.k)}</div><div class="bd">${esc(a.d)}</div></div>`).join("")}</div><p class="wallclose reveal">${esc(slide.floor)}</p></div>`;
+  }
+  if(slide.layout === "split"){
+    return `<div class="main wallmain splitwrap"><div class="splitL"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="splitpts">${slide.points.map((p,i)=>`<div class="spitem reveal"><span class="spn">${String(i+1).padStart(2,"0")}</span><p>${esc(p)}</p></div>`).join("")}</div><p class="wallclose reveal">${esc(slide.lede)}</p></div><figure class="splitR reveal"><span class="splitfr"></span><div class="splitimg" style="background-image:url('${esc(slide.sideimg)}')"></div></figure></div>`;
+  }
+  if(slide.layout === "lede"){
+    return `<div class="main wallmain ledewrap"><p class="kicker reveal">${esc(slide.eyebrow)}</p><h1 class="ledehead reveal">${titleHtml(slide)}</h1><p class="ledebig reveal">${esc(slide.lede)}</p><div class="ledepts reveal">${slide.points.map((p,i)=>`<div class="ledept"><span>${String(i+1).padStart(2,"0")}</span><p>${esc(p)}</p></div>`).join("")}</div></div>`;
+  }
+  if(slide.layout === "twocol"){
+    return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="twocol reveal">${slide.points.map((p,i)=>`<div class="tcitem"><span class="tcn">${String(i+1).padStart(2,"0")}</span><p>${esc(p)}</p></div>`).join("")}</div><p class="wallclose reveal">${esc(slide.lede)}</p></div>`;
+  }
+  if(slide.layout === "pillars"){
+    const items = slide.wall || slide.points.map(p=>{const i=p.indexOf(" ");return {k:p.slice(0,i),d:p.slice(i+1)};});
+    return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="pillars reveal">${items.map(w=>`<div class="pillar"><div class="pcap">${esc(w.k)}</div>${w.v?`<div class="pval">${esc(w.v)}</div>`:""}<div class="pbar"></div><div class="pdesc">${esc(w.d)}</div></div>`).join("")}</div><p class="wallclose reveal">${esc(slide.close||slide.lede)}</p></div>${slide.rackimg?`<div class="rackpic" style="background-image:url('${esc(slide.rackimg)}')"></div>`:""}`;
+  }
+  if(slide.layout === "timeline"){
+    return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="tline reveal"><span class="tline-rail"></span>${slide.wall.map(w=>`<div class="tnode"><span class="tdot"></span><div class="tk">${esc(w.k)}</div><div class="tv">${esc(w.v)}</div><div class="td">${esc(w.d)}</div></div>`).join("")}</div><p class="wallclose reveal">${esc(slide.close)}</p></div>`;
+  }
+  if(slide.layout === "ladder"){
+    return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="ladder reveal">${slide.wall.map((w,i)=>`<div class="rung" style="--lvl:${i}"><span class="rn">${String(i+1).padStart(2,"0")}</span><div class="rbody"><div class="rk">${esc(w.k)}</div><div class="rd"><b>${esc(w.v)}</b> ${esc(w.d)}</div></div></div>`).join("")}</div><p class="wallclose reveal">${esc(slide.close)}</p></div>`;
   }
   return `<div class="main"><p class="kicker reveal">${esc(slide.eyebrow)}</p><h1 class="reveal">${titleHtml(slide)}</h1><p class="lede reveal">${esc(slide.lede)}</p><div class="proof">${slide.points.map((point,pointIdx)=>`<div class="spec"><span class="num">${String(pointIdx+1).padStart(2,"0")}</span><p>${esc(point)}</p></div>`).join("")}</div></div>`;
 }
