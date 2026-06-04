@@ -207,7 +207,7 @@
   .slide[data-tone="red"] h1 .accent{color:#e2b0ac}
   .slide[data-tone="blue"] h1 .accent{color:#a8c8df}
 
-  .lede{
+  p.lede{
     max-width:62ch;
     margin:22px 0 0;
     color:#d4dcde;
@@ -412,7 +412,7 @@
   /* alternate layout: "wall" (problem grid) - same style, different composition */
   .slide.wall .hero-media,.slide.stat .hero-media,.slide.loop .hero-media,.slide.agents .hero-media,.slide.react .hero-media,.slide.stack .hero-media,.slide.split .hero-media,.slide.lede .hero-media,.slide.twocol .hero-media,.slide.pillars .hero-media,.slide.timeline .hero-media,.slide.ladder .hero-media{display:none}
   .slide.wall .content,.slide.stat .content,.slide.loop .content,.slide.agents .content,.slide.react .content,.slide.stack .content,.slide.split .content,.slide.lede .content,.slide.twocol .content,.slide.pillars .content,.slide.timeline .content,.slide.ladder .content{width:auto;right:var(--pad-x)}
-  .wallmain{align-self:center}
+  .wallmain{align-self:center;width:100%}
   .wallhead{margin:0 0 6px;font-family:Inter,system-ui,sans-serif;font-weight:800;text-transform:uppercase;
     line-height:.96;letter-spacing:.01em;font-size:clamp(34px,min(5.4vw,8vh),68px);max-width:20ch}
   .bricks{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:24px 0 16px}
@@ -436,9 +436,9 @@
 
   /* stat layout */
   .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin:30px 0 16px}
-  .stat{border-left:2px solid rgba(116,199,232,.5);padding:2px 0 2px 18px}
-  .stat .sv{font-family:Inter,system-ui,sans-serif;font-weight:800;font-size:clamp(34px,4.2vw,62px);line-height:1;color:#f3f7f8}
-  .stat .sk{margin-top:10px;font:600 11px/1.3 JetBrains Mono,monospace;letter-spacing:.16em;text-transform:uppercase;color:#b8d8e6}
+  .stats .stat{border-left:2px solid rgba(116,199,232,.5);padding:2px 0 2px 18px}
+  .stats .stat .sv{font-family:Inter,system-ui,sans-serif;font-weight:800;font-size:clamp(34px,4.2vw,62px);line-height:1;color:#f3f7f8}
+  .stats .stat .sk{margin-top:10px;font:600 11px/1.3 JetBrains Mono,monospace;letter-spacing:.16em;text-transform:uppercase;color:#b8d8e6}
   .wallsub{margin:8px 0 0;font:500 13px/1.5 JetBrains Mono,monospace;letter-spacing:.03em;color:#9aa0a6}
 
   /* loop layout */
@@ -508,10 +508,11 @@
   .splitfr{position:absolute;inset:-8px;border:1px solid rgba(116,199,232,.18);border-radius:7px;pointer-events:none}
 
   /* lede / manifesto layout */
+  .ledewrap{width:100%;max-width:none}
   .ledehead{margin:6px 0 4px;font-family:Inter,system-ui,sans-serif;font-weight:800;text-transform:uppercase;line-height:.96;font-size:clamp(40px,min(6.4vw,9vh),84px)}
-  .ledebig{margin:18px 0 26px;font-family:Inter,system-ui,sans-serif;font-weight:300;font-size:clamp(22px,2.6vw,40px);line-height:1.28;color:#eef4f6;max-width:24ch}
-  .ledepts{display:flex;gap:26px;flex-wrap:wrap;border-top:1px solid rgba(116,199,232,.18);padding-top:18px}
-  .ledept{flex:1 1 0;min-width:200px;display:flex;gap:11px;align-items:flex-start}
+  .ledebig{margin:20px 0 30px;font-family:Inter,system-ui,sans-serif;font-weight:300;font-size:clamp(22px,2.5vw,40px);line-height:1.26;color:#eef4f6;max-width:none}
+  .ledepts{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;border-top:1px solid rgba(116,199,232,.18);padding-top:18px}
+  .ledept{flex:1 1 0;min-width:0;display:flex;gap:11px;align-items:flex-start}
   .ledept span{font:700 12px/1.3 'JetBrains Mono',monospace;color:#74c7e8;letter-spacing:.1em}
   .ledept p{margin:0;font-size:13px;line-height:1.5;color:#9aa0a6;font-weight:300}
 
@@ -558,7 +559,7 @@
     .topline{align-items:flex-start;gap:14px;font-size:10px;letter-spacing:.16em;line-height:1.45}
     .topline span:last-child{max-width:calc(100vw - 150px)}
     h1{font-size:clamp(42px,15vw,76px)}
-    .lede{font-size:16px}
+    p.lede{font-size:16px}
     .proof{grid-template-columns:1fr;gap:16px;margin-top:34px}
     .spec{min-height:auto}
     .footer{display:none}
@@ -600,7 +601,7 @@ const slides = [
   {
     tone:"blue",
     layout:"split",
-    sideimg:"assets/photos/rack-datacenter.jpg",
+    sideimg:"assets/photos/liang-nathan.png",
     eyebrow:"01 / The City Awakens",
     title:["The","City","Awakens"],
     accent:1,
