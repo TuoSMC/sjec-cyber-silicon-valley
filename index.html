@@ -319,6 +319,8 @@
   }
 
   .dot.on{background:#b8d8e6}
+  .dot.opt{opacity:.45;background:transparent;border:1px solid rgba(185,154,88,.65)}
+  .optbadge{position:absolute;top:5.2vh;left:50%;transform:translateX(-50%);z-index:5;font:600 9px/1 'JetBrains Mono',monospace;letter-spacing:.22em;text-transform:uppercase;color:#bfa569;border:1px solid rgba(185,154,88,.45);background:rgba(185,154,88,.07);padding:5px 11px;border-radius:3px}
 
   .progress{
     position:fixed;
@@ -420,6 +422,9 @@
   .brick .bv{font-family:Inter,system-ui,sans-serif;font-weight:800;font-size:clamp(17px,1.5vw,24px);color:#f3f7f8;line-height:1.05}
   .brick .bd{font-size:12px;line-height:1.42;color:#9aa0a6;font-weight:300}
   .wallclose{margin:0;font-family:Inter,system-ui,sans-serif;font-weight:300;font-size:clamp(15px,1.3vw,20px);color:#d4dcde;max-width:66ch}
+  .haspic .wallmain{width:64%}
+  .haspic .wallclose{max-width:48ch}
+  .rackpic{position:absolute;right:calc(var(--pad-x) - 10px);top:13%;bottom:14%;width:30%;background-position:center;background-repeat:no-repeat;background-size:cover;border:1px solid rgba(116,199,232,.18);border-radius:4px;filter:drop-shadow(0 0 26px rgba(116,199,232,.18));pointer-events:none}
   .slide.active .brick{animation:reveal .7s both cubic-bezier(.22,.61,.36,1)}
   .slide.active .brick:nth-child(1){animation-delay:.16s}
   .slide.active .brick:nth-child(2){animation-delay:.22s}
@@ -776,6 +781,7 @@ const slides = [
     layout:"wall",
     tone:"red",
     eyebrow:"16 / New Operating Model",
+    optional:true,
     title:["Agentic Needs a","New Operating Model"],
     accent:1,
     tagline:"Not just racks - now service environments.",
@@ -806,6 +812,7 @@ const slides = [
     layout:"wall",
     tone:"blue",
     eyebrow:"18 / Power & Cooling",
+    rackimg:"assets/epic/rack-a.png",
     title:["Liquid Cooling","at Any Density"],
     accent:1,
     tagline:"Air cooling disappears above 50 kW. We bring the liquid.",
@@ -823,6 +830,7 @@ const slides = [
     layout:"wall",
     tone:"gold",
     eyebrow:"19 / Rack-Scale + Software",
+    rackimg:"assets/epic/rack-b.png",
     title:["Compute, Managed","and Monetized"],
     accent:1,
     tagline:"From silicon to AI service - one stack.",
@@ -840,6 +848,8 @@ const slides = [
     layout:"stat",
     tone:"gold",
     eyebrow:"20 / AMD Helios Rackscale",
+    optional:true,
+    rackimg:"assets/epic/rack-a.png",
     title:["Rack-Level","AI Factory Output"],
     accent:1,
     tagline:"72 AMD Instinct MI455X GPUs - at-scale inference and training.",
@@ -855,6 +865,7 @@ const slides = [
     layout:"wall",
     tone:"blue",
     eyebrow:"21 / Open Rack Wide",
+    optional:true,
     title:["The Rack Standard","Is Changing"],
     accent:1,
     tagline:"ORv3 to ORW - density measured in floors, not just rack units.",
@@ -912,7 +923,7 @@ function titleHtml(slide){
 
 function mainBlock(slide){
   if(slide.layout === "wall"){
-    return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="bricks">${slide.wall.map(w=>`<div class="brick"><div class="bk">${esc(w.k)}</div><div class="bv">${esc(w.v)}</div><div class="bd">${esc(w.d)}</div></div>`).join("")}</div><p class="wallclose reveal">${esc(slide.close)}</p></div>`;
+    return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="bricks">${slide.wall.map(w=>`<div class="brick"><div class="bk">${esc(w.k)}</div><div class="bv">${esc(w.v)}</div><div class="bd">${esc(w.d)}</div></div>`).join("")}</div><p class="wallclose reveal">${esc(slide.close)}</p></div>${slide.rackimg?`<div class="rackpic" style="background-image:url('${esc(slide.rackimg)}')"></div>`:""}`;
   }
   if(slide.layout === "react"){
     return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="diagram reveal"><svg viewBox="0 0 1060 520" preserveAspectRatio="xMidYMid meet"><defs><marker id="ah" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#74c7e8"/></marker><marker id="ahg" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#b99a58"/></marker></defs><path class="rfeedback" d="M950,268 C 840,90 260,90 150,268" marker-end="url(#ahg)"/><text class="rlabel rgold" x="550" y="78" text-anchor="middle">RETRIEVE / RE-PLAN - CLOSE THE LOOP</text><path class="rfeedback" d="M690,332 C 600,478 300,478 150,332" marker-end="url(#ahg)"/><text class="rlabel rgold" x="415" y="502" text-anchor="middle">RE-REASON ON RESULT</text><path class="rlink" d="M230,300 L334,300"/><path class="rflow" d="M230,300 L334,300" marker-end="url(#ah)"/><text class="rlabel" x="282" y="289" text-anchor="middle">SELECT TOOL</text><path class="rlink" d="M770,300 L864,300"/><path class="rflow" d="M770,300 L864,300" marker-end="url(#ah)"/><text class="rlabel" x="817" y="289" text-anchor="middle">EMBED</text><path class="rflow" d="M500,292 L540,224"/><polygon class="rgate" points="555,198 582,218 555,238 528,218"/><text class="rgate-l" x="555" y="182" text-anchor="middle">BIM / BAS VALIDATE</text><path class="rflow" d="M570,224 L610,292" marker-end="url(#ah)"/><path class="rlink" d="M420,332 L378,392"/><path class="rlink" d="M420,332 L470,392"/><path class="rlink" d="M420,332 L562,392"/><rect class="rchip" x="333" y="392" width="90" height="26" rx="3"/><text class="rchip-l" x="378" y="409" text-anchor="middle">BESS</text><rect class="rchip" x="425" y="392" width="90" height="26" rx="3"/><text class="rchip-l" x="470" y="409" text-anchor="middle">EV-CHARGER</text><rect class="rchip" x="517" y="392" width="90" height="26" rx="3"/><text class="rchip-l" x="562" y="409" text-anchor="middle">SIGNALS</text><g><rect class="rnode" x="70" y="268" width="160" height="64" rx="4"/><text class="rnode-l" x="150" y="298" text-anchor="middle">REASON</text><text class="rnode-d" x="150" y="318" text-anchor="middle">PG&amp;E / CAISO / BESS / BIM</text></g><g><rect class="rnode" x="340" y="268" width="160" height="64" rx="4"/><text class="rnode-l" x="420" y="298" text-anchor="middle">ACT</text><text class="rnode-d" x="420" y="318" text-anchor="middle">call tools / BACnet</text></g><g><rect class="rnode" x="610" y="268" width="160" height="64" rx="4"/><text class="rnode-l" x="690" y="298" text-anchor="middle">OBSERVE</text><text class="rnode-d" x="690" y="318" text-anchor="middle">power / carbon / latency</text></g><g><rect class="rnode" x="870" y="268" width="160" height="64" rx="4"/><text class="rnode-l" x="950" y="298" text-anchor="middle">MEMORY</text><text class="rnode-d" x="950" y="318" text-anchor="middle">embed / store / audit</text></g></svg></div><p class="wallclose reveal">${esc(slide.callout)}</p></div>`;
@@ -925,14 +936,16 @@ function mainBlock(slide){
     const bridge=(x1,x2,y)=>`<line class="rlink" x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke-width="3"/><line class="rflow" x1="${x1}" y1="${y}" x2="${x2}" y2="${y}"/>`;
     const TX=[80,300,520,740,960],TY=160,TW=150,TH=190;
     const towers=mod(TX[0],TY,TW,TH,'AGGREGATE',false)+mod(TX[1],TY,TW,TH,'ORGANIZE',false)+mod(TX[2],TY,TW,TH,'REASON',false)+mod(TX[3],TY,TW,TH,'CONCLUDE',false)+mod(TX[4],TY,TW,TH,'DECIDE',true);
-    let bridges='';for(let i=0;i<4;i++){[45,110,165].forEach(dy=>{bridges+=bridge(TX[i]+TW,TX[i+1],TY+dy);});}
+    let bridges='';for(let i=0;i<4;i++){[36,76,116,156].forEach(dy=>{bridges+=bridge(TX[i]+TW,TX[i+1],TY+dy);});bridges+=`<line class="rlink" x1="${TX[i]+TW}" y1="${TY+30}" x2="${TX[i+1]}" y2="${TY+TH-34}" stroke-width="1.3"/><line class="rlink" x1="${TX[i]+TW}" y1="${TY+TH-34}" x2="${TX[i+1]}" y2="${TY+30}" stroke-width="1.3"/>`;}
+    bridges+=`<line class="rlink" x1="${TX[0]}" y1="${TY+TH+13}" x2="${TX[4]+TW}" y2="${TY+TH+13}" stroke-width="3"/><line class="rflow" x1="${TX[0]}" y1="${TY+TH+13}" x2="${TX[4]+TW}" y2="${TY+TH+13}"/>`;
+    TX.forEach(x=>{bridges+=`<line class="rlink" x1="${x+TW/2}" y1="${TY+TH}" x2="${x+TW/2}" y2="${TY+TH+13}" stroke-width="2"/><line class="rlink" x1="${x+16}" y1="${TY+8}" x2="${x+16}" y2="${TY+TH-8}" stroke-width="1"/><line class="rlink" x1="${x+TW-16}" y1="${TY+8}" x2="${x+TW-16}" y2="${TY+TH-8}" stroke-width="1"/>`;});
     let agents='';A.forEach((a,i)=>{const ay=TY+6+i*37;agents+=`<rect class="mini" x="2" y="${ay}" width="62" height="30" rx="2"/><text class="mini-l" x="33" y="${ay+19}" text-anchor="middle">${esc(a.k)}</text><line class="rlink" x1="64" y1="${ay+15}" x2="${TX[0]}" y2="${ay+15}" stroke-width="2"/><line class="rflow" x1="64" y1="${ay+15}" x2="${TX[0]}" y2="${ay+15}"/>`;});
     const cx0=TX[0]+TW/2,cx4=TX[4]+TW/2;
     const feedback=`<path class="rfeedback" d="M${cx4},134 C ${cx4},48 ${cx0},48 ${cx0},134" marker-end="url(#ahg2)"/><text class="rlabel rgold" x="${(cx0+cx4)/2}" y="40" text-anchor="middle">RE-RUN THE LOOP</text>`;
     return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="diagram reveal"><svg viewBox="0 0 1130 380" preserveAspectRatio="xMidYMid meet"><defs><marker id="ahg2" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#e6cf95"/></marker></defs>${bridges}${feedback}${towers}${agents}</svg></div><p class="wallclose reveal">${esc(slide.floor)}</p></div>`;
   }
   if(slide.layout === "stat"){
-    return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="stats reveal">${slide.stats.map(s=>`<div class="stat"><div class="sv">${esc(s.v)}</div><div class="sk">${esc(s.k)}</div></div>`).join("")}</div><p class="wallclose reveal">${esc(slide.weld)}</p><p class="wallsub reveal">${esc(slide.scale2)}</p></div>`;
+    return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="stats reveal">${slide.stats.map(s=>`<div class="stat"><div class="sv">${esc(s.v)}</div><div class="sk">${esc(s.k)}</div></div>`).join("")}</div><p class="wallclose reveal">${esc(slide.weld)}</p><p class="wallsub reveal">${esc(slide.scale2)}</p></div>${slide.rackimg?`<div class="rackpic" style="background-image:url('${esc(slide.rackimg)}')"></div>`:""}`;
   }
   if(slide.layout === "loop"){
     return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="loop reveal">${slide.loop.map((s,i)=>`<div class="step"><div class="sn">${esc(s.n)}</div><div class="sk">${esc(s.k)}</div><div class="bd">${esc(s.d)}</div></div>${i<slide.loop.length-1?`<div class="arrow">&rarr;</div>`:""}`).join("")}</div><p class="wallclose reveal">${esc(slide.callout)}</p></div>`;
@@ -945,9 +958,10 @@ function mainBlock(slide){
 
 function render(){
   deck.innerHTML = slides.map((slide, idx) => `
-    <section class="slide ${idx === 0 ? "active" : ""} ${slide.photo ? "vivid" : ""}${slide.layout ? " " + esc(slide.layout) : ""}" data-tone="${esc(slide.tone)}">
+    <section class="slide ${idx === 0 ? "active" : ""} ${slide.photo ? "vivid" : ""}${slide.layout ? " " + esc(slide.layout) : ""}${slide.rackimg ? " haspic" : ""}" data-tone="${esc(slide.tone)}">
       <div class="hero-media"><div class="image" style="background-image:url('${esc(slide.photo || slide.image)}')"></div></div>
       <div class="chapter"><span>${esc(slide.eyebrow.split("/")[0].trim())}</span><span class="number">${String(idx + 1).padStart(2,"0")}</span></div>
+      ${slide.optional?`<div class="optbadge">Optional · skip if time</div>`:""}
       <div class="content">
         <div class="topline reveal"><span class="mark"><i></i><i></i><i></i></span><span>${esc(slide.tagline)}</span></div>
         ${mainBlock(slide)}
@@ -959,7 +973,7 @@ function render(){
     </section>
   `).join("");
 
-  rail.innerHTML = slides.map((_, idx) => `<button class="dot ${idx === 0 ? "on" : ""}" data-slide="${idx}" title="Slide ${idx + 1}" aria-label="Go to slide ${idx + 1}"></button>`).join("");
+  rail.innerHTML = slides.map((s, idx) => `<button class="dot ${idx === 0 ? "on" : ""}${s.optional?" opt":""}" data-slide="${idx}" title="Slide ${idx + 1}" aria-label="Go to slide ${idx + 1}"></button>`).join("");
   rail.querySelectorAll("button").forEach(btn => btn.addEventListener("click", () => go(Number(btn.dataset.slide))));
   const params = new URLSearchParams(location.search);
   const requested = Number(params.get("slide") || "1");
