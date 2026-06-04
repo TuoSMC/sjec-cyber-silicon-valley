@@ -424,7 +424,7 @@
   .wallclose{margin:0;font-family:Inter,system-ui,sans-serif;font-weight:300;font-size:clamp(15px,1.3vw,20px);color:#d4dcde;max-width:66ch}
   .haspic .wallmain{width:64%}
   .haspic .wallclose{max-width:48ch}
-  .rackpic{position:absolute;right:calc(var(--pad-x) - 10px);top:13%;bottom:14%;width:30%;background-position:center;background-repeat:no-repeat;background-size:cover;border:1px solid rgba(116,199,232,.18);border-radius:4px;filter:drop-shadow(0 0 26px rgba(116,199,232,.18));pointer-events:none}
+  .rackpic{position:absolute;right:calc(var(--pad-x) - 10px);top:9%;bottom:9%;width:27%;background-position:center;background-repeat:no-repeat;background-size:contain;background-color:rgb(8,11,15);border:1px solid rgba(116,199,232,.18);border-radius:4px;filter:drop-shadow(0 0 26px rgba(116,199,232,.16));pointer-events:none}
   .slide.active .brick{animation:reveal .7s both cubic-bezier(.22,.61,.36,1)}
   .slide.active .brick:nth-child(1){animation-delay:.16s}
   .slide.active .brick:nth-child(2){animation-delay:.22s}
@@ -624,6 +624,7 @@ const slides = [
     tagline:"San Jose as deployable cyber-physical infrastructure",
     lede:"A cleaner audience-facing narrative on digital twins, edge intelligence, energy orchestration, and deployable cyber-physical infrastructure.",
     image:"assets/pptx/image1.png",
+    photo:"assets/pptx/image1.png",
     points:[
       "A city becomes intelligent when sensing, decision-making, and execution work as one system.",
       "Data centers, BESS, BIM, BAS, and microgrid infrastructure must operate as a coordinated stack.",
@@ -931,7 +932,7 @@ const slides = [
     tone:"gold",
     eyebrow:"20 / AMD Helios Rackscale",
     optional:true,
-    rackimg:"assets/epic/rack-a.png",
+    rackimg:"assets/epic/rack-d.png",
     title:["Rack-Level","AI Factory Output"],
     accent:1,
     tagline:"72 AMD Instinct MI455X GPUs - at-scale inference and training.",
@@ -947,7 +948,7 @@ const slides = [
     layout:"fuse",
     tone:"gold",
     eyebrow:"21 / Agentic Reshapes the Rack",
-    rackimg:"assets/epic/rack-b.png",
+    rackimg:"assets/epic/rack-c.png",
     title:["Agentic Is Rewriting","the Rack Itself"],
     accent:1,
     tagline:"The workload changed - so the rack standard had to change.",
