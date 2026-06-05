@@ -560,13 +560,13 @@
   /* evolve layout (3D blocks: silicon -> manage -> monetize -> value) */
   .evolve .diagram{display:flex;justify-content:center}
   .evolve svg{width:100%;height:auto;max-height:55vh;margin:6px 0 0}
-  .ek{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:10px;letter-spacing:.09em;fill:#b8d8e6}
-  .ev{font-family:Inter,system-ui,sans-serif;font-weight:800;font-size:16px;fill:#f3f7f8}
+  .ek{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:11px;letter-spacing:.09em;fill:#b8d8e6}
+  .ev{font-family:Inter,system-ui,sans-serif;font-weight:800;font-size:18px;fill:#f3f7f8}
   .ev.g{fill:#e6cf95}
-  .ed{font-family:'JetBrains Mono',monospace;font-size:9.5px;fill:#9aa0a6}
-  .elink{fill:none;stroke:rgba(116,199,232,.4);stroke-width:1.2}
-  .eflow{fill:none;stroke:#9fe0ff;stroke-width:2.2;stroke-dasharray:2 11;stroke-linecap:round;filter:drop-shadow(0 0 5px rgba(116,199,232,.8));animation:flow .7s linear infinite}
-  .eflow.g{stroke:#e6cf95;filter:drop-shadow(0 0 5px rgba(185,154,88,.85))}
+  .ed{font-family:'JetBrains Mono',monospace;font-size:10.5px;fill:#9aa0a6}
+  .elink{fill:none;stroke:rgba(116,199,232,.5);stroke-width:1.8}
+  .eflow{fill:none;stroke:#a8e6ff;stroke-width:3.4;stroke-dasharray:3 9;stroke-linecap:round;filter:drop-shadow(0 0 7px rgba(116,199,232,.95));animation:flow .7s linear infinite}
+  .eflow.g{stroke:#f0d89a;filter:drop-shadow(0 0 7px rgba(185,154,88,.95))}
   .estage{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:9px;letter-spacing:.16em;fill:#6f7a82}
   .estage.g{fill:#c8ab6a}
 
@@ -1098,7 +1098,7 @@ function mainBlock(slide){
     return `<div class="main covermain"><div class="coverbrand reveal"><div class="coverlogo" style="background-image:url('${esc(slide.logo)}')"></div><span class="coverevent">${esc(slide.eyebrow)}</span></div><div class="covertitlewrap reveal"><h1 class="covertitle">${titleHtml(slide)}</h1><div class="coverline"></div><p class="coversub">${esc(slide.coversub)}</p></div><div class="presenters reveal">${pres}</div><div class="coverfoot reveal"><span class="coveraddr">${esc(slide.address)}</span><span class="coverevent2">SUPERMICRO &middot; SJEC EXPO 2026</span></div></div>`;
   }
   if(slide.layout === "evolve"){
-    const W=slide.wall, D=15, DY=-9;
+    const W=slide.wall, D=18, DY=-11;
     const cyan={front:"rgba(46,103,131,.5)",top:"rgba(116,199,232,.46)",side:"rgba(14,32,44,.66)",st:"rgba(116,199,232,.55)"};
     const plat={front:"rgba(58,120,150,.55)",top:"rgba(150,214,242,.5)",side:"rgba(18,40,53,.72)",st:"rgba(150,214,242,.7)"};
     const gold={front:"rgba(120,96,44,.55)",top:"rgba(230,207,149,.5)",side:"rgba(44,34,14,.72)",st:"rgba(185,154,88,.85)",g:1};
@@ -1107,8 +1107,8 @@ function mainBlock(slide){
       return `<polygon points="${tl} ${tr} ${ttr} ${ttl}" fill="${p.top}" stroke="${p.st}" stroke-width="1"/><polygon points="${tr} ${br} ${tbr} ${ttr}" fill="${p.side}" stroke="${p.st}" stroke-width="1"/><polygon points="${tl} ${tr} ${br} ${bl}" fill="${p.front}" stroke="${p.st}" stroke-width="1.2"/><text class="ek" x="${x+16}" y="${y+22}">${esc(it.k)}</text><text class="ev${p.g?' g':''}" x="${x+16}" y="${y+48}">${esc(it.v)}</text><text class="ed" x="${x+16}" y="${y+h-12}">${esc(it.d)}</text>`;
     };
     const flow=(x1,y1,x2,y2,g)=>`<path class="elink" d="M${x1},${y1} C ${(x1+x2)/2},${y1} ${(x1+x2)/2},${y2} ${x2},${y2}"/><path class="eflow${g?' g':''}" d="M${x1},${y1} C ${(x1+x2)/2},${y1} ${(x1+x2)/2},${y2} ${x2},${y2}" marker-end="url(#${g?'eahg':'eah'})"/>`;
-    const hwW=196,hwH=70,hwX=28,hwY=[40,148,256];
-    const scX=330,scW=210,scH=98,scY=138, ncX=600,ncW=210,ncH=84,ncY=118, zX=854,zW=196,zH=84,zY=86;
+    const hwW=220,hwH=84,hwX=24,hwY=[28,138,248];
+    const scX=312,scW=238,scH=112,scY=124, ncX=596,ncW=232,ncH=100,ncY=110, zX=854,zW=210,zH=100,zY=80;
     let blocks='',flows='';
     for(let i=0;i<3;i++) blocks+=blk(hwX,hwY[i],hwW,hwH,W[i],cyan);
     blocks+=blk(scX,scY,scW,scH,W[3],plat)+blk(ncX,ncY,ncW,ncH,W[4],cyan)+blk(zX,zY,zW,zH,W[5],gold);
