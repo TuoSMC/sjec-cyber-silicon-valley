@@ -701,7 +701,7 @@ const slides = [
     tone:"blue",
     layout:"split",
     sideimg:"assets/photos/liang-nathan-trio.png",
-    eyebrow:"01 / The City Awakens",
+    eyebrow:"03 / The City Awakens",
     title:["The","City","Awakens"],
     accent:1,
     tagline:"From static infrastructure to live city intelligence",
@@ -716,7 +716,7 @@ const slides = [
   {
     tone:"gold",
     layout:"lede",
-    eyebrow:"02 / Already Happening",
+    eyebrow:"04 / Already Happening",
     title:["Already","Happening"],
     accent:0,
     tagline:"The digital city is no longer theoretical",
@@ -730,7 +730,7 @@ const slides = [
   },
   {
     tone:"red",
-    eyebrow:"03 / The Heart",
+    eyebrow:"05 / The Heart",
     title:["The","Heart"],
     accent:1,
     tagline:"The data center shifts from compute node to city coordinator",
@@ -746,7 +746,7 @@ const slides = [
   {
     tone:"blue",
     layout:"twocol",
-    eyebrow:"05 / 10 ms Reflex",
+    eyebrow:"06 / 10 ms Reflex",
     title:["10 ms","Reflex"],
     accent:1,
     tagline:"Local inference protects the response window",
@@ -761,7 +761,7 @@ const slides = [
   {
     tone:"gold",
     layout:"react",
-    eyebrow:"06 / Agentic Brain",
+    eyebrow:"07 / Agentic Brain",
     loop:[
       {n:"01", k:"REASON", d:"read PG&E, CAISO, BESS SOC, BIM, BAS"},
       {n:"02", k:"ACT", d:"call BESS, EV-charger, signals via BACnet"},
@@ -783,7 +783,7 @@ const slides = [
   {
     tone:"red",
     layout:"stack",
-    eyebrow:"07 / Multi-Agent Collaboration",
+    eyebrow:"08 / Multi-Agent Collaboration",
     supervisor:"SUPERVISOR + COORDINATOR - sets the global objective, arbitrates conflict, syncs tasks",
     agents:[
       {k:"POWER", d:"BESS + data-center dispatch"},
@@ -808,7 +808,7 @@ const slides = [
     tone:"gold",
     layout:"split",
     sideimg:"assets/photos/bess-battery.jpg",
-    eyebrow:"08 / Intelligent Energy Dispatch",
+    eyebrow:"09 / Intelligent Energy Dispatch",
     title:["Intelligent","Energy","Dispatch"],
     accent:1,
     tagline:"Energy orchestration becomes an operational advantage",
@@ -823,7 +823,7 @@ const slides = [
   {
     tone:"blue",
     layout:"pillars",
-    eyebrow:"09 / Infrastructure Layer",
+    eyebrow:"10 / Infrastructure Layer",
     title:["Soul","Blueprint"],
     accent:0,
     tagline:"Physical truth, executable controls, dispatchable resilience",
@@ -844,7 +844,7 @@ const slides = [
   {
     tone:"gold",
     layout:"stat",
-    eyebrow:"10 / Technical Architecture and Scale",
+    eyebrow:"11 / Technical Architecture and Scale",
     stats:[
       {v:"2,800-3,500", k:"DCBBS RACKS - SAN JOSE"},
       {v:"280-420 MW", k:"RELIABLE POWER"},
@@ -864,9 +864,25 @@ const slides = [
     ]
   },
   {
+    layout:"twocol",
+    tone:"red",
+    eyebrow:"12 / AI Has a Body",
+    title:["AI Has","a Body"],
+    accent:1,
+    tagline:"Intelligence just became physical - thought now costs watts, heat, and water.",
+    image:"assets/pptx/image8.png",
+    lede:"The mind was the easy part - the body is where deployments live or die.",
+    points:[
+      "Every inference is a thermodynamic event: tokens become joules, joules become heat, then water and carbon. Thinking now carries a power bill.",
+      "Agentic inference never idles - the city's nervous system runs 24/7. This is continuous baseload, not a training spike, so it is sized in megawatts.",
+      "Efficiency does not shrink the body, it grows it: cheaper thinking means more agents and more total power. The metabolism only scales up.",
+      "So the question flips - not what the model can do, but whether we can power, cool, and water its body, continuously, at city scale."
+    ]
+  },
+  {
     layout:"barrier",
     tone:"red",
-    eyebrow:"Deployment Reality",
+    eyebrow:"13 / Deployment Reality",
     title:["The Rack Is the","Easy Part"],
     accent:1,
     tagline:"Everyone buys the box. Deployments die at the wall.",
@@ -880,36 +896,6 @@ const slides = [
       {k:"INTEGRATION", v:"one closed loop", d:"BIM / BAS / microgrid / Agentic"}
     ],
     close:"Deployments don't die at the purchase order. They die at the wall."
-  },
-  {
-    tone:"red",
-    layout:"twocol",
-    eyebrow:"12 / AI Has a Body",
-    title:["AI Has","a Body"],
-    accent:1,
-    tagline:"AI infrastructure has physical consequences",
-    lede:"Power, carbon, water, and heat become executive-level constraints.",
-    image:"assets/pptx/image8.png",
-    points:[
-      "AI data center demand grows rapidly as inference and training workloads expand.",
-      "Carbon emissions and water consumption rise with the physical footprint of AI infrastructure.",
-      "Waste heat, NFPA 855 risk, grid impact, and CEQA scrutiny become unavoidable deployment issues."
-    ]
-  },
-  {
-    tone:"blue",
-    layout:"lede",
-    eyebrow:"13 / Integration Is the Bottleneck",
-    title:["Integration","Bottleneck"],
-    accent:0,
-    tagline:"Integration maturity determines deployability",
-    lede:"The real challenge is not one technology. It is coordinated technical and regulatory maturity.",
-    image:"assets/pptx/image9.png",
-    points:[
-      "IoT, Edge, Agentic AI, BESS, microgrid, BIM, and BAS must form a closed-loop system.",
-      "CEQA, SJCE, Resource Adequacy, and NFPA 855 must be addressed as one coordinated compliance story.",
-      "Cyber Silicon Valley becomes deployable only when technical architecture and regulatory readiness mature together."
-    ]
   },
   {
     layout:"growth",
@@ -928,9 +914,24 @@ const slides = [
     close:"From 1,000 homes to a small city - in a single rack generation."
   },
   {
+    tone:"blue",
+    layout:"lede",
+    eyebrow:"15 / Integration Is the Bottleneck",
+    title:["Integration","Bottleneck"],
+    accent:0,
+    tagline:"Integration maturity determines deployability",
+    lede:"The real challenge is not one technology. It is coordinated technical and regulatory maturity.",
+    image:"assets/pptx/image9.png",
+    points:[
+      "IoT, Edge, Agentic AI, BESS, microgrid, BIM, and BAS must form a closed-loop system.",
+      "CEQA, SJCE, Resource Adequacy, and NFPA 855 must be addressed as one coordinated compliance story.",
+      "Cyber Silicon Valley becomes deployable only when technical architecture and regulatory readiness mature together."
+    ]
+  },
+  {
     layout:"ladder",
     tone:"blue",
-    eyebrow:"15 / System-Level Design",
+    eyebrow:"16 / System-Level Design",
     title:["The Rack Is the","Unit of Design"],
     accent:1,
     tagline:"Old world: server, rack, repeat. New world: integrated system design.",
@@ -943,76 +944,9 @@ const slides = [
     close:"Compute, cooling, and fabric are now co-designed - not bolted together."
   },
   {
-    tone:"blue",
-    eyebrow:"17 / The Answer",
-    title:["DCBBS"],
-    accent:0,
-    tagline:"Data Center Building Block Solutions",
-    lede:"The rack delivered as one validated block - compute, cooling, power, networking, software, and services, co-designed and integrated.",
-    image:"assets/epic/nvl72-pod.png",
-    photo:"assets/epic/nvl72-pod.png",
-    points:[
-      "Liquid-cooled rack-scale: GB300 NVL72, HGX B300, in-rack CDU, power shelf, BBU - validated as one system.",
-      "SuperCloud software plus global onsite services deploy and operate it at scale.",
-      "This is how you clear the wall: not a box - an integrated power, thermal, and load envelope."
-    ]
-  },
-  {
-    layout:"iso",
-    tone:"blue",
-    eyebrow:"18 / Power & Cooling",
-    title:["Liquid Cooling","at Any Density"],
-    accent:1,
-    tagline:"Air cooling disappears above 50 kW. We bring the liquid.",
-    wall:[
-      {k:"IN-RACK CDU", v:"50-80 kW", d:"direct-to-chip"},
-      {k:"IN-ROW CDU", v:"up to 200 kW", d:"row-scale"},
-      {k:"REAR-DOOR HX", v:"up to 250 kW", d:"4U chiller door"},
-      {k:"SIDECAR L2A", v:"up to 1.8 MW", d:"liquid-to-air"},
-      {k:"POWER SHELF", v:"33 kW", d:"19in / ORv3"},
-      {k:"BBU BACKUP", v:"33 kW", d:"safety + uptime"}
-    ],
-    close:"From the cold plate to the cooling tower - one engineered thermal chain."
-  },
-  {
-    layout:"wall",
-    tone:"gold",
-    eyebrow:"19 / Rack-Scale + Software",
-    rackimg:"assets/epic/rack-b.png",
-    title:["Compute, Managed","and Monetized"],
-    accent:1,
-    tagline:"From silicon to AI service - one stack.",
-    wall:[
-      {k:"GB300 NVL72", v:"liquid-cooled", d:"Vera Rubin coming"},
-      {k:"HGX B300 / B200", v:"4U / 8U", d:"8-GPU racks"},
-      {k:"FLEXTWIN + SUPERBLADE", v:"HPC density", d:"highest node count"},
-      {k:"SUPERCLOUD", v:"SCD / SCC / SCAC", d:"deploy + monitor + automate"},
-      {k:"AI NEOCLOUD", v:"CaaS / BMaaS / GPUaaS", d:"service catalog"},
-      {k:"ZERO LOCK-IN", v:"lower TCO", d:"full flexibility"}
-    ],
-    close:"Abstract, manage, and monetize AI compute - on your terms."
-  },
-  {
-    layout:"stat",
-    tone:"gold",
-    eyebrow:"20 / AMD Helios Rackscale",
-    optional:true,
-    rackimg:"assets/epic/amd-helios.png",
-    title:["Rack-Level","AI Factory Output"],
-    accent:1,
-    tagline:"72 AMD Instinct MI455X GPUs - at-scale inference and training.",
-    stats:[
-      {v:"2.9 Exaflops", k:"PEAK 4-BIT AI (MXFP4)"},
-      {v:"31 TB", k:"HBM4 MEMORY / RACK"},
-      {v:"1.4 PB/s", k:"MEMORY BANDWIDTH"}
-    ],
-    weld:"Up to 260 TB/s scale-up and 43 TB/s scale-out per rackscale solution, on 2nm / 3nm process.",
-    scale2:"Built for hyperscalers, AI NeoCloud providers, and sovereign AI. Inference -> Training -> Fine-tuning."
-  },
-  {
     layout:"fuse",
     tone:"gold",
-    eyebrow:"21 / Agentic Reshapes the Rack",
+    eyebrow:"17 / Agentic Reshapes the Rack",
     rackimg:"assets/epic/nvl72-lineup.png",
     title:["Agentic Is Rewriting","the Rack Itself"],
     accent:1,
@@ -1032,6 +966,73 @@ const slides = [
       {k:"Open standard", d:"ORv3 / ORW - NVL72-class racks"}
     ],
     close:"Agentic demand rewrote the rack - wider, denser, liquid-native. That rack is NVL72-class, Open Rack Wide."
+  },
+  {
+    tone:"blue",
+    eyebrow:"18 / The Answer",
+    title:["DCBBS"],
+    accent:0,
+    tagline:"Data Center Building Block Solutions",
+    lede:"The rack delivered as one validated block - compute, cooling, power, networking, software, and services, co-designed and integrated.",
+    image:"assets/epic/nvl72-pod.png",
+    photo:"assets/epic/nvl72-pod.png",
+    points:[
+      "Liquid-cooled rack-scale: GB300 NVL72, HGX B300, in-rack CDU, power shelf, BBU - validated as one system.",
+      "SuperCloud software plus global onsite services deploy and operate it at scale.",
+      "This is how you clear the wall: not a box - an integrated power, thermal, and load envelope."
+    ]
+  },
+  {
+    layout:"iso",
+    tone:"blue",
+    eyebrow:"19 / Power & Cooling",
+    title:["Liquid Cooling","at Any Density"],
+    accent:1,
+    tagline:"Air cooling disappears above 50 kW. We bring the liquid.",
+    wall:[
+      {k:"IN-RACK CDU", v:"50-80 kW", d:"direct-to-chip"},
+      {k:"IN-ROW CDU", v:"up to 200 kW", d:"row-scale"},
+      {k:"REAR-DOOR HX", v:"up to 250 kW", d:"4U chiller door"},
+      {k:"SIDECAR L2A", v:"up to 1.8 MW", d:"liquid-to-air"},
+      {k:"POWER SHELF", v:"33 kW", d:"19in / ORv3"},
+      {k:"BBU BACKUP", v:"33 kW", d:"safety + uptime"}
+    ],
+    close:"From the cold plate to the cooling tower - one engineered thermal chain."
+  },
+  {
+    layout:"stat",
+    tone:"gold",
+    eyebrow:"20 / AMD Helios Rackscale",
+    optional:true,
+    rackimg:"assets/epic/amd-helios.png",
+    title:["Rack-Level","AI Factory Output"],
+    accent:1,
+    tagline:"72 AMD Instinct MI455X GPUs - at-scale inference and training.",
+    stats:[
+      {v:"2.9 Exaflops", k:"PEAK 4-BIT AI (MXFP4)"},
+      {v:"31 TB", k:"HBM4 MEMORY / RACK"},
+      {v:"1.4 PB/s", k:"MEMORY BANDWIDTH"}
+    ],
+    weld:"Up to 260 TB/s scale-up and 43 TB/s scale-out per rackscale solution, on 2nm / 3nm process.",
+    scale2:"Built for hyperscalers, AI NeoCloud providers, and sovereign AI. Inference -> Training -> Fine-tuning."
+  },
+  {
+    layout:"wall",
+    tone:"gold",
+    eyebrow:"21 / Rack-Scale + Software",
+    rackimg:"assets/epic/rack-b.png",
+    title:["Compute, Managed","and Monetized"],
+    accent:1,
+    tagline:"From silicon to AI service - one stack.",
+    wall:[
+      {k:"GB300 NVL72", v:"liquid-cooled", d:"Vera Rubin coming"},
+      {k:"HGX B300 / B200", v:"4U / 8U", d:"8-GPU racks"},
+      {k:"FLEXTWIN + SUPERBLADE", v:"HPC density", d:"highest node count"},
+      {k:"SUPERCLOUD", v:"SCD / SCC / SCAC", d:"deploy + monitor + automate"},
+      {k:"AI NEOCLOUD", v:"CaaS / BMaaS / GPUaaS", d:"service catalog"},
+      {k:"ZERO LOCK-IN", v:"lower TCO", d:"full flexibility"}
+    ],
+    close:"Abstract, manage, and monetize AI compute - on your terms."
   },
   {
     layout:"stat",
