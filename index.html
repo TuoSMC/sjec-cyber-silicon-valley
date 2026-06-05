@@ -410,8 +410,8 @@
   }
 
   /* alternate layout: "wall" (problem grid) - same style, different composition */
-  .slide.wall .hero-media,.slide.stat .hero-media,.slide.loop .hero-media,.slide.agents .hero-media,.slide.react .hero-media,.slide.stack .hero-media,.slide.split .hero-media,.slide.lede .hero-media,.slide.twocol .hero-media,.slide.pillars .hero-media,.slide.timeline .hero-media,.slide.ladder .hero-media,.slide.barrier .hero-media,.slide.fuse .hero-media,.slide.growth .hero-media,.slide.iso .hero-media{display:none}
-  .slide.wall .content,.slide.stat .content,.slide.loop .content,.slide.agents .content,.slide.react .content,.slide.stack .content,.slide.split .content,.slide.lede .content,.slide.twocol .content,.slide.pillars .content,.slide.timeline .content,.slide.ladder .content,.slide.barrier .content,.slide.fuse .content,.slide.growth .content,.slide.iso .content{width:auto;right:var(--pad-x)}
+  .slide.wall .hero-media,.slide.stat .hero-media,.slide.loop .hero-media,.slide.agents .hero-media,.slide.react .hero-media,.slide.stack .hero-media,.slide.split .hero-media,.slide.lede .hero-media,.slide.twocol .hero-media,.slide.pillars .hero-media,.slide.timeline .hero-media,.slide.ladder .hero-media,.slide.barrier .hero-media,.slide.fuse .hero-media,.slide.growth .hero-media,.slide.iso .hero-media,.slide.evolve .hero-media{display:none}
+  .slide.wall .content,.slide.stat .content,.slide.loop .content,.slide.agents .content,.slide.react .content,.slide.stack .content,.slide.split .content,.slide.lede .content,.slide.twocol .content,.slide.pillars .content,.slide.timeline .content,.slide.ladder .content,.slide.barrier .content,.slide.fuse .content,.slide.growth .content,.slide.iso .content,.slide.evolve .content{width:auto;right:var(--pad-x)}
   .wallmain{align-self:center;width:100%}
   .wallhead{margin:0 0 6px;font-family:Inter,system-ui,sans-serif;font-weight:800;text-transform:uppercase;
     line-height:.96;letter-spacing:.01em;font-size:clamp(34px,min(5.4vw,8vh),68px);max-width:20ch}
@@ -556,6 +556,19 @@
                linear-gradient(0deg, rgba(16,20,24,.9) 0%, rgba(16,20,24,.2) 42%, rgba(16,20,24,0) 74%)}
   .hasvideo .content{z-index:2}
   .hasvideo .chapter,.hasvideo .optbadge{z-index:3}
+
+  /* evolve layout (3D blocks: silicon -> manage -> monetize -> value) */
+  .evolve .diagram{display:flex;justify-content:center}
+  .evolve svg{width:100%;height:auto;max-height:55vh;margin:6px 0 0}
+  .ek{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:10px;letter-spacing:.09em;fill:#b8d8e6}
+  .ev{font-family:Inter,system-ui,sans-serif;font-weight:800;font-size:16px;fill:#f3f7f8}
+  .ev.g{fill:#e6cf95}
+  .ed{font-family:'JetBrains Mono',monospace;font-size:9.5px;fill:#9aa0a6}
+  .elink{fill:none;stroke:rgba(116,199,232,.4);stroke-width:1.2}
+  .eflow{fill:none;stroke:#9fe0ff;stroke-width:2.2;stroke-dasharray:2 11;stroke-linecap:round;filter:drop-shadow(0 0 5px rgba(116,199,232,.8));animation:flow .7s linear infinite}
+  .eflow.g{stroke:#e6cf95;filter:drop-shadow(0 0 5px rgba(185,154,88,.85))}
+  .estage{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:9px;letter-spacing:.16em;fill:#6f7a82}
+  .estage.g{fill:#c8ab6a}
 
   /* iso layout (3D isometric escalation bars) */
   .iso .diagram{display:flex;justify-content:center}
@@ -1017,7 +1030,7 @@ const slides = [
     scale2:"Built for hyperscalers, AI NeoCloud providers, and sovereign AI. Inference -> Training -> Fine-tuning."
   },
   {
-    layout:"wall",
+    layout:"evolve",
     tone:"gold",
     eyebrow:"21 / Rack-Scale + Software",
     rackimg:"assets/epic/rack-b.png",
@@ -1083,6 +1096,27 @@ function mainBlock(slide){
   if(slide.layout === "cover"){
     const pres=(slide.presenters||[]).map(p=>`<div class="pcard"><div class="pphoto" style="background-image:url('${esc(p.photo)}')"></div><div class="pmeta"><div class="pname">${esc(p.name)}</div><div class="prole">${esc(p.role)}</div><div class="porg">${esc(p.org)}</div></div></div>`).join('<div class="pdiv"></div>');
     return `<div class="main covermain"><div class="coverbrand reveal"><div class="coverlogo" style="background-image:url('${esc(slide.logo)}')"></div><span class="coverevent">${esc(slide.eyebrow)}</span></div><div class="covertitlewrap reveal"><h1 class="covertitle">${titleHtml(slide)}</h1><div class="coverline"></div><p class="coversub">${esc(slide.coversub)}</p></div><div class="presenters reveal">${pres}</div><div class="coverfoot reveal"><span class="coveraddr">${esc(slide.address)}</span><span class="coverevent2">SUPERMICRO &middot; SJEC EXPO 2026</span></div></div>`;
+  }
+  if(slide.layout === "evolve"){
+    const W=slide.wall, D=15, DY=-9;
+    const cyan={front:"rgba(46,103,131,.5)",top:"rgba(116,199,232,.46)",side:"rgba(14,32,44,.66)",st:"rgba(116,199,232,.55)"};
+    const plat={front:"rgba(58,120,150,.55)",top:"rgba(150,214,242,.5)",side:"rgba(18,40,53,.72)",st:"rgba(150,214,242,.7)"};
+    const gold={front:"rgba(120,96,44,.55)",top:"rgba(230,207,149,.5)",side:"rgba(44,34,14,.72)",st:"rgba(185,154,88,.85)",g:1};
+    const blk=(x,y,w,h,it,p)=>{
+      const tl=[x,y],tr=[x+w,y],br=[x+w,y+h],bl=[x,y+h],ttl=[x+D,y+DY],ttr=[x+w+D,y+DY],tbr=[x+w+D,y+h+DY];
+      return `<polygon points="${tl} ${tr} ${ttr} ${ttl}" fill="${p.top}" stroke="${p.st}" stroke-width="1"/><polygon points="${tr} ${br} ${tbr} ${ttr}" fill="${p.side}" stroke="${p.st}" stroke-width="1"/><polygon points="${tl} ${tr} ${br} ${bl}" fill="${p.front}" stroke="${p.st}" stroke-width="1.2"/><text class="ek" x="${x+16}" y="${y+22}">${esc(it.k)}</text><text class="ev${p.g?' g':''}" x="${x+16}" y="${y+48}">${esc(it.v)}</text><text class="ed" x="${x+16}" y="${y+h-12}">${esc(it.d)}</text>`;
+    };
+    const flow=(x1,y1,x2,y2,g)=>`<path class="elink" d="M${x1},${y1} C ${(x1+x2)/2},${y1} ${(x1+x2)/2},${y2} ${x2},${y2}"/><path class="eflow${g?' g':''}" d="M${x1},${y1} C ${(x1+x2)/2},${y1} ${(x1+x2)/2},${y2} ${x2},${y2}" marker-end="url(#${g?'eahg':'eah'})"/>`;
+    const hwW=196,hwH=70,hwX=28,hwY=[40,148,256];
+    const scX=330,scW=210,scH=98,scY=138, ncX=600,ncW=210,ncH=84,ncY=118, zX=854,zW=196,zH=84,zY=86;
+    let blocks='',flows='';
+    for(let i=0;i<3;i++) blocks+=blk(hwX,hwY[i],hwW,hwH,W[i],cyan);
+    blocks+=blk(scX,scY,scW,scH,W[3],plat)+blk(ncX,ncY,ncW,ncH,W[4],cyan)+blk(zX,zY,zW,zH,W[5],gold);
+    for(let i=0;i<3;i++) flows+=flow(hwX+hwW,hwY[i]+hwH/2,scX,scY+scH*(0.27+i*0.23),false);
+    flows+=flow(scX+scW,scY+scH/2,ncX,ncY+ncH/2,false)+flow(ncX+ncW,ncY+ncH/2,zX,zY+zH/2,true);
+    const stage=(x,t,g)=>`<text class="estage${g?' g':''}" x="${x}" y="356" text-anchor="middle">${t}</text>`;
+    const stages=stage(hwX+hwW/2,"SILICON")+stage(scX+scW/2,"ABSTRACT &amp; MANAGE")+stage(ncX+ncW/2,"MONETIZE")+stage(zX+zW/2,"ON YOUR TERMS",1);
+    return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="diagram reveal"><svg viewBox="0 0 1120 388" preserveAspectRatio="xMidYMid meet"><defs><marker id="eah" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#74c7e8"/></marker><marker id="eahg" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#e6cf95"/></marker></defs>${blocks}${flows}${stages}</svg></div><p class="wallclose reveal">${esc(slide.close)}</p></div>`;
   }
   if(slide.layout === "wall"){
     return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="bricks">${slide.wall.map(w=>`<div class="brick"><div class="bk">${esc(w.k)}</div><div class="bv">${esc(w.v)}</div><div class="bd">${esc(w.d)}</div></div>`).join("")}</div><p class="wallclose reveal">${esc(slide.close)}</p></div>${slide.rackimg?`<div class="rackpic" style="background-image:url('${esc(slide.rackimg)}')"></div>`:""}`;
