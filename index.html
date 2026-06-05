@@ -410,8 +410,8 @@
   }
 
   /* alternate layout: "wall" (problem grid) - same style, different composition */
-  .slide.wall .hero-media,.slide.stat .hero-media,.slide.loop .hero-media,.slide.agents .hero-media,.slide.react .hero-media,.slide.stack .hero-media,.slide.split .hero-media,.slide.lede .hero-media,.slide.twocol .hero-media,.slide.pillars .hero-media,.slide.timeline .hero-media,.slide.ladder .hero-media,.slide.barrier .hero-media,.slide.fuse .hero-media{display:none}
-  .slide.wall .content,.slide.stat .content,.slide.loop .content,.slide.agents .content,.slide.react .content,.slide.stack .content,.slide.split .content,.slide.lede .content,.slide.twocol .content,.slide.pillars .content,.slide.timeline .content,.slide.ladder .content,.slide.barrier .content,.slide.fuse .content{width:auto;right:var(--pad-x)}
+  .slide.wall .hero-media,.slide.stat .hero-media,.slide.loop .hero-media,.slide.agents .hero-media,.slide.react .hero-media,.slide.stack .hero-media,.slide.split .hero-media,.slide.lede .hero-media,.slide.twocol .hero-media,.slide.pillars .hero-media,.slide.timeline .hero-media,.slide.ladder .hero-media,.slide.barrier .hero-media,.slide.fuse .hero-media,.slide.growth .hero-media{display:none}
+  .slide.wall .content,.slide.stat .content,.slide.loop .content,.slide.agents .content,.slide.react .content,.slide.stack .content,.slide.split .content,.slide.lede .content,.slide.twocol .content,.slide.pillars .content,.slide.timeline .content,.slide.ladder .content,.slide.barrier .content,.slide.fuse .content,.slide.growth .content{width:auto;right:var(--pad-x)}
   .wallmain{align-self:center;width:100%}
   .wallhead{margin:0 0 6px;font-family:Inter,system-ui,sans-serif;font-weight:800;text-transform:uppercase;
     line-height:.96;letter-spacing:.01em;font-size:clamp(34px,min(5.4vw,8vh),68px);max-width:20ch}
@@ -548,6 +548,16 @@
   .rk{font-family:Inter,system-ui,sans-serif;font-weight:800;font-size:clamp(15px,1.4vw,22px);text-transform:uppercase;color:#f3f7f8;line-height:1.05}
   .rd{font-size:12.5px;line-height:1.42;color:#9aa0a6;font-weight:300}
   .rd b{color:#b8d8e6;font-weight:600}
+
+  /* growth layout (ascending power-escalation bar chart) */
+  .growth .diagram{display:flex;justify-content:center}
+  .growth svg{width:100%;height:auto;max-height:54vh;margin:6px 0 0}
+  .gval{font-family:Inter,system-ui,sans-serif;font-weight:800;font-size:22px;fill:#f3f7f8}
+  .gval.g{fill:#e6cf95}
+  .gk{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:11px;letter-spacing:.05em;fill:#b8d8e6}
+  .gd{font-family:'JetBrains Mono',monospace;font-size:10.5px;fill:#9aa0a6}
+  .gbase{stroke:rgba(116,199,232,.3);stroke-width:1}
+  .gtrend{fill:none;stroke:#9fe0ff;stroke-width:2.2;stroke-dasharray:2 10;stroke-linecap:round;filter:drop-shadow(0 0 5px rgba(116,199,232,.85));animation:flow .7s linear infinite}
 
   /* fuse layout (cause -> effect two columns + rack photo) */
   .fuse{display:flex;align-items:stretch;gap:12px;margin:22px 0 16px}
@@ -846,7 +856,7 @@ const slides = [
     ]
   },
   {
-    layout:"timeline",
+    layout:"growth",
     tone:"red",
     eyebrow:"14 / The Power Reality",
     title:["AI Is Redefining","Data-Center Power"],
@@ -1081,6 +1091,22 @@ function mainBlock(slide){
   if(slide.layout === "fuse"){
     const col=(title,items,gold)=>`<div class="fcol${gold?' f-gold':''}"><div class="fhd">${esc(title)}</div>${items.map(it=>`<div class="fitem"><div class="fk">${esc(it.k)}</div><div class="fd">${esc(it.d)}</div></div>`).join("")}</div>`;
     return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="fuse reveal">${col(slide.fromTitle,slide.from,false)}<div class="farrow"><svg viewBox="0 0 44 60" width="44" height="60"><defs><marker id="fah" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#e6cf95"/></marker></defs><line class="ffl" x1="3" y1="30" x2="38" y2="30" marker-end="url(#fah)"/></svg><span class="fa-l">DRIVES</span></div>${col(slide.toTitle,slide.to,true)}</div><p class="wallclose reveal">${esc(slide.close)}</p></div>${slide.rackimg?`<div class="rackpic" style="background-image:url('${esc(slide.rackimg)}')"></div>`:""}`;
+  }
+  if(slide.layout === "growth"){
+    const items=slide.wall;
+    const vals=items.map(w=>Math.max(...(w.v.match(/\d+/g)||[1]).map(Number)));
+    const maxV=Math.max(...vals);
+    const base=398,maxH=300,minH=38,step=1080/items.length,bw=138;
+    let bars='',pts=[];
+    items.forEach((w,i)=>{
+      const h=minH+(vals[i]/maxV)*(maxH-minH);
+      const cx=Math.round(30+step*i+step/2), x=cx-bw/2, y=Math.round(base-h), g=(i===items.length-1);
+      pts.push([cx,y]);
+      bars+=`<rect x="${x}" y="${y}" width="${bw}" height="${Math.round(h)}" rx="3" fill="url(#${g?'gbg':'gb'})" stroke="${g?'rgba(185,154,88,.85)':'rgba(116,199,232,.5)'}" stroke-width="1.2"/><text class="gval${g?' g':''}" x="${cx}" y="${y-15}" text-anchor="middle">${esc(w.v.replace(/\s*\/.*/,''))}</text><text class="gk" x="${cx}" y="${base+24}" text-anchor="middle">${esc(w.k)}</text><text class="gd" x="${cx}" y="${base+42}" text-anchor="middle">${esc(w.d)}</text>`;
+    });
+    const poly=pts.map(p=>p.join(',')).join(' ');
+    const dots=pts.map((p,i)=>`<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="#0c1318" stroke="${i===pts.length-1?'#e6cf95':'#74c7e8'}" stroke-width="2"/>`).join('');
+    return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="diagram reveal"><svg viewBox="0 0 1120 470" preserveAspectRatio="xMidYMid meet"><defs><linearGradient id="gb" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#2b8ac5" stop-opacity=".05"/><stop offset="1" stop-color="#74c7e8" stop-opacity=".34"/></linearGradient><linearGradient id="gbg" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#b9985a" stop-opacity=".06"/><stop offset="1" stop-color="#e6cf95" stop-opacity=".42"/></linearGradient></defs><line class="gbase" x1="24" y1="${base+2}" x2="1096" y2="${base+2}"/>${bars}<polyline class="gtrend" points="${poly}"/>${dots}</svg></div><p class="wallclose reveal">${esc(slide.close)}</p></div>`;
   }
   return `<div class="main"><p class="kicker reveal">${esc(slide.eyebrow)}</p><h1 class="reveal">${titleHtml(slide)}</h1><p class="lede reveal">${esc(slide.lede)}</p><div class="proof">${slide.points.map((point,pointIdx)=>`<div class="spec"><span class="num">${String(pointIdx+1).padStart(2,"0")}</span><p>${esc(point)}</p></div>`).join("")}</div></div>`;
 }
