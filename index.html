@@ -410,8 +410,8 @@
   }
 
   /* alternate layout: "wall" (problem grid) - same style, different composition */
-  .slide.wall .hero-media,.slide.stat .hero-media,.slide.loop .hero-media,.slide.agents .hero-media,.slide.react .hero-media,.slide.stack .hero-media,.slide.split .hero-media,.slide.lede .hero-media,.slide.twocol .hero-media,.slide.pillars .hero-media,.slide.timeline .hero-media,.slide.ladder .hero-media,.slide.barrier .hero-media,.slide.fuse .hero-media,.slide.growth .hero-media{display:none}
-  .slide.wall .content,.slide.stat .content,.slide.loop .content,.slide.agents .content,.slide.react .content,.slide.stack .content,.slide.split .content,.slide.lede .content,.slide.twocol .content,.slide.pillars .content,.slide.timeline .content,.slide.ladder .content,.slide.barrier .content,.slide.fuse .content,.slide.growth .content{width:auto;right:var(--pad-x)}
+  .slide.wall .hero-media,.slide.stat .hero-media,.slide.loop .hero-media,.slide.agents .hero-media,.slide.react .hero-media,.slide.stack .hero-media,.slide.split .hero-media,.slide.lede .hero-media,.slide.twocol .hero-media,.slide.pillars .hero-media,.slide.timeline .hero-media,.slide.ladder .hero-media,.slide.barrier .hero-media,.slide.fuse .hero-media,.slide.growth .hero-media,.slide.iso .hero-media{display:none}
+  .slide.wall .content,.slide.stat .content,.slide.loop .content,.slide.agents .content,.slide.react .content,.slide.stack .content,.slide.split .content,.slide.lede .content,.slide.twocol .content,.slide.pillars .content,.slide.timeline .content,.slide.ladder .content,.slide.barrier .content,.slide.fuse .content,.slide.growth .content,.slide.iso .content{width:auto;right:var(--pad-x)}
   .wallmain{align-self:center;width:100%}
   .wallhead{margin:0 0 6px;font-family:Inter,system-ui,sans-serif;font-weight:800;text-transform:uppercase;
     line-height:.96;letter-spacing:.01em;font-size:clamp(34px,min(5.4vw,8vh),68px);max-width:20ch}
@@ -548,6 +548,16 @@
   .rk{font-family:Inter,system-ui,sans-serif;font-weight:800;font-size:clamp(15px,1.4vw,22px);text-transform:uppercase;color:#f3f7f8;line-height:1.05}
   .rd{font-size:12.5px;line-height:1.42;color:#9aa0a6;font-weight:300}
   .rd b{color:#b8d8e6;font-weight:600}
+
+  /* iso layout (3D isometric escalation bars) */
+  .iso .diagram{display:flex;justify-content:center}
+  .iso svg{width:100%;height:auto;max-height:54vh;margin:6px 0 0}
+  .ival{font-family:Inter,system-ui,sans-serif;font-weight:800;font-size:17px;fill:#f3f7f8}
+  .ival.g{fill:#e6cf95;font-size:21px}
+  .ik{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:11px;letter-spacing:.04em;fill:#b8d8e6}
+  .idd{font-family:'JetBrains Mono',monospace;font-size:10px;fill:#9aa0a6}
+  .ileap{fill:none;stroke:#e6cf95;stroke-width:2.4;stroke-dasharray:2 9;stroke-linecap:round;filter:drop-shadow(0 0 5px rgba(185,154,88,.8));animation:flow .7s linear infinite}
+  .ileap-l{font-family:Inter,system-ui,sans-serif;font-weight:800;font-size:18px;fill:#e6cf95;letter-spacing:.02em}
 
   /* growth layout (ascending power-escalation bar chart) */
   .growth .diagram{display:flex;justify-content:center}
@@ -902,10 +912,9 @@ const slides = [
     ]
   },
   {
-    layout:"pillars",
+    layout:"iso",
     tone:"blue",
     eyebrow:"18 / Power & Cooling",
-    rackimg:"assets/epic/rack-c.png",
     title:["Liquid Cooling","at Any Density"],
     accent:1,
     tagline:"Air cooling disappears above 50 kW. We bring the liquid.",
@@ -1096,7 +1105,7 @@ function mainBlock(slide){
     const items=slide.wall;
     const vals=items.map(w=>Math.max(...(w.v.match(/\d+/g)||[1]).map(Number)));
     const maxV=Math.max(...vals);
-    const base=398,maxH=300,minH=38,step=1080/items.length,bw=138;
+    const base=398,maxH=300,minH=22,step=1080/items.length,bw=138;
     let bars='',pts=[];
     items.forEach((w,i)=>{
       const h=minH+(vals[i]/maxV)*(maxH-minH);
@@ -1104,9 +1113,36 @@ function mainBlock(slide){
       pts.push([cx,y]);
       bars+=`<rect x="${x}" y="${y}" width="${bw}" height="${Math.round(h)}" rx="3" fill="url(#${g?'gbg':'gb'})" stroke="${g?'rgba(185,154,88,.85)':'rgba(116,199,232,.5)'}" stroke-width="1.2"/><text class="gval${g?' g':''}" x="${cx}" y="${y-15}" text-anchor="middle">${esc(w.v.replace(/\s*\/.*/,''))}</text><text class="gk" x="${cx}" y="${base+24}" text-anchor="middle">${esc(w.k)}</text><text class="gd" x="${cx}" y="${base+42}" text-anchor="middle">${esc(w.d)}</text>`;
     });
-    const poly=pts.map(p=>p.join(',')).join(' ');
+    let curve=pts.length?`M${pts[0][0]},${pts[0][1]}`:"";
+    for(let i=0;i<pts.length-1;i++){const p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||pts[i+1];const c1x=(p1[0]+(p2[0]-p0[0])/6).toFixed(1),c1y=(p1[1]+(p2[1]-p0[1])/6).toFixed(1),c2x=(p2[0]-(p3[0]-p1[0])/6).toFixed(1),c2y=(p2[1]-(p3[1]-p1[1])/6).toFixed(1);curve+=` C${c1x},${c1y} ${c2x},${c2y} ${p2[0]},${p2[1]}`;}
     const dots=pts.map((p,i)=>`<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="#0c1318" stroke="${i===pts.length-1?'#e6cf95':'#74c7e8'}" stroke-width="2"/>`).join('');
-    return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="diagram reveal"><svg viewBox="0 0 1120 470" preserveAspectRatio="xMidYMid meet"><defs><linearGradient id="gb" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#2b8ac5" stop-opacity=".05"/><stop offset="1" stop-color="#74c7e8" stop-opacity=".34"/></linearGradient><linearGradient id="gbg" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#b9985a" stop-opacity=".06"/><stop offset="1" stop-color="#e6cf95" stop-opacity=".42"/></linearGradient></defs><line class="gbase" x1="24" y1="${base+2}" x2="1096" y2="${base+2}"/>${bars}<polyline class="gtrend" points="${poly}"/>${dots}</svg></div><p class="wallclose reveal">${esc(slide.close)}</p></div>`;
+    return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="diagram reveal"><svg viewBox="0 0 1120 470" preserveAspectRatio="xMidYMid meet"><defs><linearGradient id="gb" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#2b8ac5" stop-opacity=".05"/><stop offset="1" stop-color="#74c7e8" stop-opacity=".34"/></linearGradient><linearGradient id="gbg" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#b9985a" stop-opacity=".06"/><stop offset="1" stop-color="#e6cf95" stop-opacity=".42"/></linearGradient></defs><line class="gbase" x1="24" y1="${base+2}" x2="1096" y2="${base+2}"/>${bars}<path class="gtrend" d="${curve}"/>${dots}</svg></div><p class="wallclose reveal">${esc(slide.close)}</p></div>`;
+  }
+  if(slide.layout === "iso"){
+    const parse=v=>{const n=(v.match(/[\d.]+/g)||[1]).map(Number);let m=Math.max(...n);if(/MW/i.test(v))m*=1000;return m;};
+    const items=slide.wall.map(w=>({k:w.k,v:w.v,d:w.d,val:parse(w.v)})).sort((a,b)=>a.val-b.val);
+    const maxV=Math.max(...items.map(i=>i.val));
+    const base=390,maxH=292,minH=34,step=1080/items.length,w=102,D=19,DY=-11;
+    const pal={front:"rgba(46,103,131,.5)",top:"rgba(116,199,232,.46)",side:"rgba(14,32,44,.66)",st:"rgba(116,199,232,.55)"};
+    const palg={front:"rgba(120,96,44,.52)",top:"rgba(230,207,149,.5)",side:"rgba(44,34,14,.66)",st:"rgba(185,154,88,.85)"};
+    let shadows='',svg='',tops=[];
+    items.forEach((it,i)=>{
+      const hh=Math.round(minH+Math.pow(it.val/maxV,0.7)*(maxH-minH));
+      const cx=Math.round(30+step*i+step/2), bx=cx-w/2, by=base, g=(i===items.length-1), p=g?palg:pal;
+      tops.push([cx,by-hh]);
+      shadows+=`<ellipse cx="${cx+D/2+7}" cy="${base+8}" rx="${Math.round(w*0.66)}" ry="11" fill="rgba(0,0,0,.82)" filter="url(#isosh)"/>`;
+      const tl=[bx,by-hh],tr=[bx+w,by-hh],br=[bx+w,by],bl=[bx,by],ttl=[bx+D,by-hh+DY],ttr=[bx+w+D,by-hh+DY],tbr=[bx+w+D,by+DY];
+      svg+=`<polygon points="${tl} ${tr} ${ttr} ${ttl}" fill="${p.top}" stroke="${p.st}" stroke-width="1"/><polygon points="${tr} ${br} ${tbr} ${ttr}" fill="${p.side}" stroke="${p.st}" stroke-width="1"/><polygon points="${bl} ${br} ${tr} ${tl}" fill="${p.front}" stroke="${p.st}" stroke-width="1.1"/>`;
+      svg+=`<text class="ival${g?' g':''}" x="${cx+D/2}" y="${by-hh+DY-9}" text-anchor="middle">${esc(it.v.replace(/up to /i,'').replace(/\s*\/.*/,''))}</text>`;
+      svg+=`<text class="ik" x="${cx}" y="${base+24}" text-anchor="middle">${esc(it.k)}</text><text class="idd" x="${cx}" y="${base+41}" text-anchor="middle">${esc(it.d)}</text>`;
+    });
+    let leap='';
+    if(items.length>=2){
+      const a=tops[items.length-2], b=tops[items.length-1];
+      const ratio=Math.round(items[items.length-1].val/items[items.length-2].val);
+      leap=`<path class="ileap" d="M${a[0]+46},${a[1]-6} Q ${(a[0]+b[0])/2+22},${b[1]+24} ${b[0]-52},${b[1]+34}" marker-end="url(#ileapah)"/><text class="ileap-l" x="${(a[0]+b[0])/2-16}" y="${(a[1]+b[1])/2-2}" text-anchor="middle">&#8776; ${ratio}&#215; LEAP</text>`;
+    }
+    return `<div class="main wallmain"><h1 class="wallhead reveal">${titleHtml(slide)}</h1><div class="diagram reveal"><svg viewBox="0 0 1120 470" preserveAspectRatio="xMidYMid meet"><defs><filter id="isosh" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="5"/></filter><marker id="ileapah" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#e6cf95"/></marker></defs><line class="gbase" x1="20" y1="${base+1}" x2="1100" y2="${base+1}"/>${shadows}${svg}${leap}</svg></div><p class="wallclose reveal">${esc(slide.close)}</p></div>`;
   }
   return `<div class="main"><p class="kicker reveal">${esc(slide.eyebrow)}</p><h1 class="reveal">${titleHtml(slide)}</h1><p class="lede reveal">${esc(slide.lede)}</p><div class="proof">${slide.points.map((point,pointIdx)=>`<div class="spec"><span class="num">${String(pointIdx+1).padStart(2,"0")}</span><p>${esc(point)}</p></div>`).join("")}</div></div>`;
 }
