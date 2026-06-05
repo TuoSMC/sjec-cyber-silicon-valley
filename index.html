@@ -549,6 +549,14 @@
   .rd{font-size:12.5px;line-height:1.42;color:#9aa0a6;font-weight:300}
   .rd b{color:#b8d8e6;font-weight:600}
 
+  /* full-bleed background video (e.g. Scale Shift) */
+  .herovid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;background:#0b0f14}
+  .vidscrim{position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:linear-gradient(90deg, rgba(16,20,24,.94) 0%, rgba(16,20,24,.74) 42%, rgba(16,20,24,.34) 100%),
+               linear-gradient(0deg, rgba(16,20,24,.92) 0%, rgba(16,20,24,.12) 50%, rgba(16,20,24,.46) 100%)}
+  .hasvideo .content{z-index:2}
+  .hasvideo .chapter,.hasvideo .optbadge{z-index:3}
+
   /* iso layout (3D isometric escalation bars) */
   .iso .diagram{display:flex;justify-content:center}
   .iso svg{width:100%;height:auto;max-height:54vh;margin:6px 0 0}
@@ -990,6 +998,7 @@ const slides = [
   {
     layout:"stat",
     tone:"red",
+    video:"assets/video/scale-shift.mp4",
     eyebrow:"22 / What Happens Next",
     title:["Plan for the","Scale Shift"],
     accent:1,
@@ -1149,8 +1158,9 @@ function mainBlock(slide){
 
 function render(){
   deck.innerHTML = slides.map((slide, idx) => `
-    <section class="slide ${idx === 0 ? "active" : ""} ${slide.photo ? "vivid" : ""}${slide.layout ? " " + esc(slide.layout) : ""}${slide.rackimg ? " haspic" : ""}" data-tone="${esc(slide.tone)}">
+    <section class="slide ${idx === 0 ? "active" : ""} ${slide.photo ? "vivid" : ""}${slide.layout ? " " + esc(slide.layout) : ""}${slide.rackimg ? " haspic" : ""}${slide.video ? " hasvideo" : ""}" data-tone="${esc(slide.tone)}">
       <div class="hero-media"><div class="image" style="background-image:url('${esc(slide.photo || slide.image)}')"></div></div>
+      ${slide.video ? `<video class="herovid" autoplay muted loop playsinline preload="auto" src="${esc(slide.video)}"></video><div class="vidscrim"></div>` : ""}
       <div class="chapter"><span>${esc(slide.eyebrow.split("/")[0].trim())}</span><span class="number">${String(idx + 1).padStart(2,"0")}</span></div>
       ${slide.optional?`<div class="optbadge">Optional · skip if time</div>`:""}
       <div class="content">
@@ -1166,6 +1176,7 @@ function render(){
 
   rail.innerHTML = slides.map((s, idx) => `<button class="dot ${idx === 0 ? "on" : ""}${s.optional?" opt":""}" data-slide="${idx}" title="Slide ${idx + 1}" aria-label="Go to slide ${idx + 1}"></button>`).join("");
   rail.querySelectorAll("button").forEach(btn => btn.addEventListener("click", () => go(Number(btn.dataset.slide))));
+  deck.querySelectorAll("video.herovid").forEach(v => { v.muted = true; const p = v.play(); if(p && p.catch) p.catch(()=>{}); });
   const params = new URLSearchParams(location.search);
   const requested = Number(params.get("slide") || "1");
   if(params.get("export") === "1"){
